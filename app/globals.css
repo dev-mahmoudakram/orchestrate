@@ -1,12 +1,76 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Cairo";
+  src: url("/font/Cairo-ExtraLight.woff2") format("woff2");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 200;
+}
+
+@font-face {
+  font-family: "Cairo";
+  src: url("/font/Cairo-Light.woff2") format("woff2");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Cairo";
+  src: url("/font/Cairo-Regular.woff2") format("woff2");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Cairo";
+  src: url("/font/Cairo-Medium.woff2") format("woff2");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Cairo";
+  src: url("/font/Cairo-SemiBold.woff2") format("woff2");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: "Cairo";
+  src: url("/font/Cairo-Bold.woff2") format("woff2");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Cairo";
+  src: url("/font/Cairo-ExtraBold.woff2") format("woff2");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 800;
+}
+
+@font-face {
+  font-family: "Cairo";
+  src: url("/font/Cairo-Black.woff2") format("woff2");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 900;
+}
+
 @theme {
   --color-petrol: #0f3d44;
   --color-orange: #e87722;
   --color-turquoise: #6bbfb5;
   --color-soft: #f7f7f6;
   --color-ink: #142326;
-  --font-arabic: "IBM Plex Sans Arabic", "Cairo", "Noto Sans Arabic", Arial, sans-serif;
+  --font-arabic: "Cairo", "IBM Plex Sans Arabic", "Noto Sans Arabic", Arial, sans-serif;
   --font-latin: "Inter", "Manrope", Arial, sans-serif;
 }
 

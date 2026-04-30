@@ -47,8 +47,10 @@ model Page {
   translations PageTranslation[]
   createdAt    DateTime          @default(now())
   updatedAt    DateTime          @updatedAt
+  deletedAt    DateTime?
 
   @@index([isPublished, sortOrder])
+  @@index([deletedAt])
 }
 
 model PageTranslation {
@@ -79,8 +81,10 @@ model Service {
   translations    ServiceTranslation[]
   createdAt       DateTime             @default(now())
   updatedAt       DateTime             @updatedAt
+  deletedAt       DateTime?
 
   @@index([isPublished, sortOrder])
+  @@index([deletedAt])
 }
 
 model ServiceTranslation {
@@ -109,8 +113,10 @@ model Sector {
   translations SectorTranslation[]
   createdAt    DateTime            @default(now())
   updatedAt    DateTime            @updatedAt
+  deletedAt    DateTime?
 
   @@index([isPublished, sortOrder])
+  @@index([deletedAt])
 }
 
 model SectorTranslation {
@@ -140,10 +146,12 @@ model Project {
   translations    ProjectTranslation[]
   createdAt       DateTime             @default(now())
   updatedAt       DateTime             @updatedAt
+  deletedAt       DateTime?
 
   @@index([sectorId])
   @@index([isFeatured, isPublished])
   @@index([isPublished, sortOrder])
+  @@index([deletedAt])
 }
 
 model ProjectTranslation {
@@ -177,8 +185,10 @@ model Partner {
   translations PartnerTranslation[]
   createdAt    DateTime             @default(now())
   updatedAt    DateTime             @updatedAt
+  deletedAt    DateTime?
 
   @@index([isPublished, sortOrder])
+  @@index([deletedAt])
 }
 
 model PartnerTranslation {
@@ -207,8 +217,10 @@ model TeamMember {
   translations    TeamMemberTranslation[]
   createdAt       DateTime                @default(now())
   updatedAt       DateTime                @updatedAt
+  deletedAt       DateTime?
 
   @@index([isPublished, sortOrder])
+  @@index([deletedAt])
 }
 
 model TeamMemberTranslation {
