@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 
 import "@/app/globals.css";
+import { HtmlLocaleSync } from "@/components/public/html-locale-sync";
 import { brand } from "@/lib/constants/brand";
 import { defaultLocale } from "@/lib/i18n/config";
 import { getDirection, isLocale } from "@/lib/i18n/locale";
@@ -28,7 +29,10 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} dir={direction} suppressHydrationWarning>
-      <body>{children}</body>
+      <body>
+        <HtmlLocaleSync />
+        {children}
+      </body>
     </html>
   );
 }
