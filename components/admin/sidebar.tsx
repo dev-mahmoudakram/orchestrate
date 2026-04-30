@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { SidebarNav } from "@/components/admin/sidebar-nav";
 import { canManageUsers } from "@/lib/auth/permissions";
 import type { CurrentAdminUser } from "@/lib/auth/auth";
 
@@ -31,22 +32,12 @@ export function Sidebar({ user }: SidebarProps) {
   });
 
   return (
-    <aside className="hidden min-h-screen w-72 border-e border-petrol/10 bg-white px-5 py-6 lg:block">
+    <aside className="sticky top-0 hidden h-screen w-72 overflow-y-auto border-e border-petrol/10 bg-white px-5 py-6 lg:block">
       <Link className="block rounded-lg bg-petrol px-4 py-4 text-white" href="/admin/dashboard">
         <span className="block text-sm text-white/70">Orchestrate CMS</span>
         <span className="mt-1 block text-lg font-semibold">Orchestrate Innovation</span>
       </Link>
-      <nav className="mt-8 space-y-1">
-        {visibleNavItems.map((item) => (
-          <Link
-            className="block rounded-md px-4 py-3 text-sm font-medium text-petrol/75 transition hover:bg-soft hover:text-petrol"
-            href={item.href}
-            key={item.href}
-          >
-            {item.label}
-          </Link>
-        ))}
-      </nav>
+      <SidebarNav items={visibleNavItems} />
       <p className="mt-8 rounded-md bg-soft p-4 text-xs leading-6 text-petrol/65">
         Signed in as {user.role.replace("_", " ").toLowerCase()}.
       </p>

@@ -55,3 +55,20 @@ select {
     linear-gradient(90deg, rgba(15, 61, 68, 0.08) 1px, transparent 1px);
   background-size: 48px 48px;
 }
+
+.admin-route-progress-bar {
+  animation: admin-route-progress 1.2s ease-in-out infinite;
+  transform-origin: left center;
+}
+
+@keyframes admin-route-progress {
+  0% {
+    transform: translateX(-100%) scaleX(0.35);
+  }
+  45% {
+    transform: translateX(10%) scaleX(0.75);
+  }
+  100% {
+    transform: translateX(130%) scaleX(0.35);
+  }
+}
