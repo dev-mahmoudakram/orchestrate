@@ -29,6 +29,7 @@ const errorMessages: Record<string, string> = {
   "duplicate-slug-or-key": "A page with this key or slug already exists.",
   "invalid-key": "Page key must use lowercase letters, numbers, dots, underscores, or hyphens.",
   "invalid-slug": "Slug must use lowercase letters, numbers, and hyphens.",
+  "invalid-sections-json": "Sections must be valid JSON.",
   "missing-arabic-title": "Arabic title is required.",
   "missing-id": "The selected page could not be found.",
 };
@@ -42,6 +43,7 @@ function PageTranslationFields({
   title,
   summary,
   body,
+  sections,
   seoTitle,
   seoDescription,
   requiredTitle,
@@ -51,11 +53,14 @@ function PageTranslationFields({
   title?: string | null;
   summary?: string | null;
   body?: string | null;
+  sections?: unknown;
   seoTitle?: string | null;
   seoDescription?: string | null;
   requiredTitle?: boolean;
   dir: "rtl" | "ltr";
 }) {
+  const sectionsValue = sections ? JSON.stringify(sections, null, 2) : "";
+
   return (
     <div className="grid gap-4 lg:grid-cols-2">
       <TextField defaultValue={title} dir={dir} label="Title" name={`${prefix}Title`} required={requiredTitle} />
@@ -65,6 +70,16 @@ function PageTranslationFields({
       </div>
       <div className="lg:col-span-2">
         <TextAreaField defaultValue={body} dir={dir} label="Body" name={`${prefix}Body`} rows={7} />
+      </div>
+      <div className="lg:col-span-2">
+        <TextAreaField
+          defaultValue={sectionsValue}
+          dir="ltr"
+          label="Sections JSON"
+          name={`${prefix}Sections`}
+          placeholder='{"hero":{"headline":""}}'
+          rows={8}
+        />
       </div>
       <div className="lg:col-span-2">
         <TextAreaField defaultValue={seoDescription} dir={dir} label="SEO description" name={`${prefix}SeoDescription`} rows={3} />
@@ -146,6 +161,7 @@ export default async function AdminPagesPage({ searchParams }: AdminPagesPagePro
                           dir="rtl"
                           prefix="ar"
                           requiredTitle
+                          sections={ar?.sections}
                           seoDescription={ar?.seoDescription}
                           seoTitle={ar?.seoTitle}
                           summary={ar?.summary}
@@ -157,6 +173,7 @@ export default async function AdminPagesPage({ searchParams }: AdminPagesPagePro
                           body={en?.body}
                           dir="ltr"
                           prefix="en"
+                          sections={en?.sections}
                           seoDescription={en?.seoDescription}
                           seoTitle={en?.seoTitle}
                           summary={en?.summary}

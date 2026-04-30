@@ -60,6 +60,7 @@ model PageTranslation {
   title          String
   summary        String?  @db.Text
   body           String?  @db.LongText
+  sections       Json?
   seoTitle       String?
   seoDescription String?  @db.Text
   createdAt      DateTime @default(now())
@@ -107,6 +108,7 @@ model ServiceTranslation {
 model Sector {
   id           String              @id @default(cuid())
   slug         String              @unique
+  icon         String?
   isPublished  Boolean             @default(false)
   sortOrder    Int                 @default(0)
   projects     Project[]

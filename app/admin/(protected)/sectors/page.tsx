@@ -80,8 +80,9 @@ export default async function AdminSectorsPage({ searchParams }: AdminSectorsPag
       <Card>
         <h3 className="text-xl font-semibold text-petrol">Create sector</h3>
         <form action={createSectorAction} className="mt-6 space-y-5">
-          <div className="grid gap-4 lg:grid-cols-3">
+          <div className="grid gap-4 lg:grid-cols-4">
             <TextField label="Slug" name="slug" placeholder="government" required />
+            <TextField label="Icon token" name="icon" placeholder="landmark" />
             <TextField defaultValue={0} label="Sort order" name="sortOrder" type="number" />
             <CheckboxField label="Published" name="isPublished" />
           </div>
@@ -116,8 +117,9 @@ export default async function AdminSectorsPage({ searchParams }: AdminSectorsPag
                         <p className="mt-1 text-sm text-petrol/55">{sector._count.projects} linked projects</p>
                       </div>
                     </div>
-                    <div className="grid gap-4 lg:grid-cols-3">
+                    <div className="grid gap-4 lg:grid-cols-4">
                       <TextField defaultValue={sector.slug} label="Slug" name="slug" required />
+                      <TextField defaultValue={sector.icon} label="Icon token" name="icon" />
                       <TextField defaultValue={sector.sortOrder} label="Sort order" name="sortOrder" type="number" />
                       <CheckboxField defaultChecked={sector.isPublished} label="Published" name="isPublished" />
                     </div>

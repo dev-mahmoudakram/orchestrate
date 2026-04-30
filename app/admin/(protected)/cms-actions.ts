@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 
 import { requireAdmin } from "@/lib/auth/auth";
 import { canManageContent } from "@/lib/auth/permissions";
-import { Locale } from "@/lib/generated/prisma/client";
+import { Locale, Prisma } from "@/lib/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -96,7 +96,32 @@ function idFromForm(path: string, formData: FormData) {
   return id;
 }
 
-function pageTranslation(formData: FormData, prefix: "ar" | "en") {
+function optionalJson(path: string, value: FormDataEntryValue | null) {
+  const cleaned = text(value);
+
+  if (!cleaned) {
+    return Prisma.JsonNull;
+  }
+
+  try {
+    return JSON.parse(cleaned) as Prisma.InputJsonValue;
+  } catch {
+    redirectWithError(path, "invalid-sections-json");
+  }
+}
+
+function pageTranslation(path: string, formData: FormData, prefix: "ar" | "en") {
+  return {
+    title: text(formData.get(`${prefix}Title`)),
+    summary: optionalText(formData.get(`${prefix}Summary`)),
+    body: optionalText(formData.get(`${prefix}Body`)),
+    sections: optionalJson(path, formData.get(`${prefix}Sections`)),
+    seoTitle: optionalText(formData.get(`${prefix}SeoTitle`)),
+    seoDescription: optionalText(formData.get(`${prefix}SeoDescription`)),
+  };
+}
+
+function serviceTranslation(formData: FormData, prefix: "ar" | "en") {
   return {
     title: text(formData.get(`${prefix}Title`)),
     summary: optionalText(formData.get(`${prefix}Summary`)),
@@ -104,10 +129,6 @@ function pageTranslation(formData: FormData, prefix: "ar" | "en") {
     seoTitle: optionalText(formData.get(`${prefix}SeoTitle`)),
     seoDescription: optionalText(formData.get(`${prefix}SeoDescription`)),
   };
-}
-
-function serviceTranslation(formData: FormData, prefix: "ar" | "en") {
-  return pageTranslation(formData, prefix);
 }
 
 function sectorTranslation(formData: FormData, prefix: "ar" | "en") {
@@ -151,8 +172,8 @@ export async function createPageAction(formData: FormData) {
 
   const key = normalizeKey(formData.get("key"));
   const slug = normalizeSlug(formData.get("slug"));
-  const ar = pageTranslation(formData, "ar");
-  const en = pageTranslation(formData, "en");
+  const ar = pageTranslation(path, formData, "ar");
+  const en = pageTranslation(path, formData, "en");
 
   validateKey(path, key);
   validateSlug(path, slug);
@@ -187,8 +208,8 @@ export async function updatePageAction(formData: FormData) {
   const id = idFromForm(path, formData);
   const key = normalizeKey(formData.get("key"));
   const slug = normalizeSlug(formData.get("slug"));
-  const ar = pageTranslation(formData, "ar");
-  const en = pageTranslation(formData, "en");
+  const ar = pageTranslation(path, formData, "ar");
+  const en = pageTranslation(path, formData, "en");
 
   validateKey(path, key);
   validateSlug(path, slug);
@@ -338,6 +359,7 @@ export async function createSectorAction(formData: FormData) {
     await prisma.sector.create({
       data: {
         slug,
+        icon: optionalText(formData.get("icon")),
         isPublished: checked(formData, "isPublished"),
         sortOrder: sortOrder(formData.get("sortOrder")),
         translations: {
@@ -373,6 +395,7 @@ export async function updateSectorAction(formData: FormData) {
         where: { id },
         data: {
           slug,
+          icon: optionalText(formData.get("icon")),
           isPublished: checked(formData, "isPublished"),
           sortOrder: sortOrder(formData.get("sortOrder")),
         },

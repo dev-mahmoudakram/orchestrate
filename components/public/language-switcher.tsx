@@ -6,11 +6,15 @@ import type { Locale } from "@/types/locale";
 type LanguageSwitcherProps = {
   currentLocale: Locale;
   currentPathname: string;
+  labels?: {
+    ar?: string;
+    en?: string;
+  };
 };
 
-export function LanguageSwitcher({ currentLocale, currentPathname }: LanguageSwitcherProps) {
+export function LanguageSwitcher({ currentLocale, currentPathname, labels }: LanguageSwitcherProps) {
   const nextLocale = currentLocale === "ar" ? "en" : "ar";
-  const label = nextLocale === "ar" ? "العربية" : "English";
+  const label = nextLocale === "ar" ? labels?.ar ?? "العربية" : labels?.en ?? "English";
 
   return (
     <Link

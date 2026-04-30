@@ -7,6 +7,7 @@ export function proxy(request: NextRequest) {
   const locale = getLocaleFromPathname(request.nextUrl.pathname);
 
   requestHeaders.set("x-orchestrate-locale", locale);
+  requestHeaders.set("x-orchestrate-pathname", request.nextUrl.pathname);
 
   return NextResponse.next({
     request: {
