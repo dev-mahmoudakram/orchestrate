@@ -23,7 +23,7 @@ This pack is designed for Claude Code, Codex, Cursor, or any coding agent that c
 - TypeScript
 - Tailwind CSS
 - Prisma ORM
-- PostgreSQL local on Contabo VPS managed through Plesk
+- MySQL local on Contabo VPS managed through Plesk
 - Custom Admin Dashboard
 - Arabic default + English secondary
 - Dynamic Translation Panel
@@ -36,3 +36,18 @@ This pack is designed for Claude Code, Codex, Cursor, or any coding agent that c
 
 This is not a static website and not a Sanity/WordPress CMS.
 It is a custom full-stack bilingual corporate website with a custom CMS.
+
+## Phase 2 database setup
+
+Prisma is configured for MySQL through `prisma.config.ts`. Use `.env.local` for local development values and copy `.env.production.example` to `.env.production` on the VPS. Prisma commands load `.env.local` first, then `.env`.
+
+Useful commands:
+
+```bash
+npm run db:validate
+npm run db:generate
+npm run db:migrate
+npm run db:seed
+```
+
+The seed creates one `SUPER_ADMIN`, baseline page records, shared UI translation keys, starter sectors, starter services, one featured project, and core public site settings. Override the local seed admin credentials with `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` before seeding any shared environment.
