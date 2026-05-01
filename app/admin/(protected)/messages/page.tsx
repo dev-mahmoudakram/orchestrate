@@ -124,7 +124,7 @@ export default async function AdminMessagesPage({ searchParams }: AdminMessagesP
               <Link
                 className={`inline-flex min-h-10 items-center gap-2 rounded-md border px-4 text-sm font-semibold transition ${
                   isActive
-                    ? "border-petrol bg-petrol text-white"
+                    ? "border-petrol bg-petrol text-white [&_span]:text-white"
                     : "border-petrol/10 bg-white text-petrol hover:border-orange/35 hover:text-orange"
                 }`}
                 href={filterHref(filter.value)}

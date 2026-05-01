@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { ContentIcon } from "@/components/public/content-icon";
 import { Container } from "@/components/ui/container";
 import { localizePath } from "@/lib/i18n/routes";
 import {
@@ -180,7 +181,9 @@ export async function HomePage({ locale }: { locale: Locale }) {
                 >
                   <div>
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-semibold uppercase text-orange">{sector.icon ?? sector.slug}</span>
+                      <span className="flex h-10 w-10 items-center justify-center rounded-md bg-orange text-white transition group-hover:bg-petrol">
+                        <ContentIcon icon={sector.icon ?? sector.slug} />
+                      </span>
                       <span className="text-sm font-semibold text-petrol/35">{String(index + 1).padStart(2, "0")}</span>
                     </div>
                     <h3 className="mt-8 text-xl font-semibold text-petrol">{sector.translation?.title}</h3>
@@ -207,11 +210,11 @@ export async function HomePage({ locale }: { locale: Locale }) {
             <div className="grid gap-4 xl:grid-cols-1">
               {services.slice(0, 4).map((service) => (
                 <article
-                  className="grid gap-4 rounded-lg border border-petrol/10 bg-soft p-5 transition hover:border-orange/35 hover:bg-white sm:grid-cols-[auto_1fr]"
+                  className="group grid gap-4 rounded-lg border border-petrol/10 bg-soft p-5 transition hover:border-orange/35 hover:bg-white sm:grid-cols-[auto_1fr]"
                   key={service.id}
                 >
-                  <span className="flex h-12 w-12 items-center justify-center rounded-md bg-petrol text-sm font-semibold text-white">
-                    {(service.icon ?? service.slug).slice(0, 2).toUpperCase()}
+                  <span className="flex h-12 w-12 items-center justify-center rounded-md bg-orange text-white transition group-hover:bg-petrol">
+                    <ContentIcon icon={service.icon ?? service.slug} />
                   </span>
                   <div>
                     {service.featuredImage ? (

@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { submitContactMessageAction } from "@/app/(public)/contact/actions";
 import { ContactForm } from "@/components/public/contact-form";
+import { ContentIcon } from "@/components/public/content-icon";
 import { Container } from "@/components/ui/container";
 import { localizePath } from "@/lib/i18n/routes";
 import { getPageContent, getPublishedServices, getPublishedTeam } from "@/lib/public/content";
@@ -227,7 +228,9 @@ function ServicesShowcase({
               key={service.id}
             >
               <div className="flex items-center justify-between gap-4">
-                <p className="text-xs font-semibold uppercase text-orange">{service.icon ?? service.slug}</p>
+                <span className="flex h-11 w-11 items-center justify-center rounded-md bg-orange text-white transition group-hover:bg-petrol">
+                  <ContentIcon icon={service.icon ?? service.slug} />
+                </span>
                 <p className="text-sm font-semibold text-petrol/35">{String(index + 1).padStart(2, "0")}</p>
               </div>
               {service.featuredImage ? (
@@ -242,7 +245,7 @@ function ServicesShowcase({
               <h2 className="mt-8 text-2xl font-semibold leading-tight text-petrol">{service.translation?.title}</h2>
               <p className="mt-4 text-sm leading-7 text-petrol/65">{service.translation?.summary}</p>
               {service.translation?.body ? (
-                <p className="mt-5 border-t border-petrol/10 pt-5 text-sm leading-7 text-petrol/65">{service.translation.body}</p>
+                <p className="mt-5 mb-5 border-t border-petrol/10 pt-5 text-sm leading-7 text-petrol/65">{service.translation.body}</p>
               ) : null}
               <Link
                 className="mt-auto inline-flex min-h-11 min-w-32 items-center justify-center self-start rounded-md bg-petrol px-5 text-sm font-semibold transition hover:bg-[#123238]"
