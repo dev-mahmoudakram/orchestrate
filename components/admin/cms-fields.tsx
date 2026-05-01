@@ -45,7 +45,7 @@ export function AdminPageHeading({
         <h2 className="mt-4 text-3xl font-semibold text-petrol">{title}</h2>
         <p className="mt-3 max-w-3xl text-sm leading-7 text-petrol/65">{description}</p>
       </div>
-      {typeof count === "number" ? <span className="text-sm font-medium text-petrol/55">{count} records</span> : null}
+      {typeof count === "number" ? <span className="text-sm font-medium text-petrol/55">{count} سجل</span> : null}
     </header>
   );
 }
@@ -122,7 +122,7 @@ export function SelectField({ name, label, defaultValue, required, children }: S
 
 export function CheckboxField({ name, label, defaultChecked, description }: CheckboxProps) {
   return (
-    <label className="flex min-h-11 items-start gap-3 rounded-md border border-petrol/10 bg-white px-3 py-3">
+    <label className="mt-auto flex min-h-11 items-start gap-3 rounded-md border border-petrol/10 bg-white px-3 py-3">
       <input className="mt-1 h-4 w-4 accent-orange" defaultChecked={defaultChecked} name={name} type="checkbox" />
       <span>
         <span className="block text-sm font-semibold text-petrol">{label}</span>
@@ -133,7 +133,7 @@ export function CheckboxField({ name, label, defaultChecked, description }: Chec
 }
 
 export function CmsStatus({ isPublished }: { isPublished: boolean }) {
-  return <Badge tone={isPublished ? "turquoise" : "orange"}>{isPublished ? "Published" : "Draft"}</Badge>;
+  return <Badge tone={isPublished ? "turquoise" : "orange"}>{isPublished ? "منشور" : "مسودة"}</Badge>;
 }
 
 export function FormActions({ deleteAction }: { deleteAction?: (formData: FormData) => void | Promise<void> }) {
@@ -143,7 +143,7 @@ export function FormActions({ deleteAction }: { deleteAction?: (formData: FormDa
         className="inline-flex min-h-11 items-center justify-center rounded-md bg-orange px-5 text-sm font-semibold text-white transition hover:bg-[#d76719]"
         type="submit"
       >
-        Save
+        حفظ
       </button>
       {deleteAction ? (
         <button
@@ -151,7 +151,7 @@ export function FormActions({ deleteAction }: { deleteAction?: (formData: FormDa
           formAction={deleteAction}
           type="submit"
         >
-          Delete
+          حذف
         </button>
       ) : null}
     </div>

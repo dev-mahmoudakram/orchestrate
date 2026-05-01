@@ -26,10 +26,10 @@ type AdminSectorsPageProps = {
 };
 
 const errorMessages: Record<string, string> = {
-  "duplicate-slug-or-key": "A sector with this slug already exists.",
-  "invalid-slug": "Slug must use lowercase letters, numbers, and hyphens.",
-  "missing-arabic-title": "Arabic sector title is required.",
-  "missing-id": "The selected sector could not be found.",
+  "duplicate-slug-or-key": "يوجد قطاع بنفس الرابط بالفعل.",
+  "invalid-slug": "الرابط يجب أن يحتوي على أحرف صغيرة وأرقام وشرطات فقط.",
+  "missing-arabic-title": "عنوان القطاع بالعربية مطلوب.",
+  "missing-id": "تعذر العثور على القطاع المحدد.",
 };
 
 function translation<T extends { locale: Locale }>(items: T[], locale: Locale) {
@@ -51,8 +51,8 @@ function SectorTranslationFields({
 }) {
   return (
     <div className="grid gap-4">
-      <TextField defaultValue={title} dir={dir} label="Title" name={`${prefix}Title`} required={requiredTitle} />
-      <TextAreaField defaultValue={summary} dir={dir} label="Summary" name={`${prefix}Summary`} rows={4} />
+      <TextField defaultValue={title} dir={dir} label="العنوان" name={`${prefix}Title`} required={requiredTitle} />
+      <TextAreaField defaultValue={summary} dir={dir} label="الملخص" name={`${prefix}Summary`} rows={4} />
     </div>
   );
 }
@@ -69,22 +69,22 @@ export default async function AdminSectorsPage({ searchParams }: AdminSectorsPag
     <div className="space-y-8">
       <AdminPageHeading
         count={sectors.length}
-        description="Manage the sector taxonomy used by project filtering and public case-study grouping."
-        label="CMS"
-        title="Sectors"
+        description="إدارة تصنيف القطاعات المستخدم في تصفية المشاريع وتجميع دراسات الحالة في الموقع."
+        label="إدارة المحتوى"
+        title="القطاعات"
       />
 
-      {error ? <CmsNotice message={errorMessages[error] ?? "Sector could not be saved."} tone="error" /> : null}
-      {saved ? <CmsNotice message={`Sector saved: ${saved}`} /> : null}
+      {error ? <CmsNotice message={errorMessages[error] ?? "تعذر حفظ القطاع."} tone="error" /> : null}
+      {saved ? <CmsNotice message={`تم حفظ القطاع: ${saved}`} /> : null}
 
       <Card>
-        <h3 className="text-xl font-semibold text-petrol">Create sector</h3>
+        <h3 className="text-xl font-semibold text-petrol">إنشاء قطاع</h3>
         <form action={createSectorAction} className="mt-6 space-y-5">
           <div className="grid gap-4 lg:grid-cols-4">
-            <TextField label="Slug" name="slug" placeholder="government" required />
-            <TextField label="Icon token" name="icon" placeholder="landmark" />
-            <TextField defaultValue={0} label="Sort order" name="sortOrder" type="number" />
-            <CheckboxField label="Published" name="isPublished" />
+            <TextField label="الرابط" name="slug" placeholder="government" required />
+            <TextField label="رمز الأيقونة" name="icon" placeholder="landmark" />
+            <TextField defaultValue={0} label="ترتيب العرض" name="sortOrder" type="number" />
+            <CheckboxField label="منشور" name="isPublished" />
           </div>
           <LocaleTabs
             ar={<SectorTranslationFields dir="rtl" prefix="ar" requiredTitle />}
@@ -95,9 +95,9 @@ export default async function AdminSectorsPage({ searchParams }: AdminSectorsPag
       </Card>
 
       <section className="space-y-4">
-        <h3 className="text-xl font-semibold text-petrol">Existing sectors</h3>
+        <h3 className="text-xl font-semibold text-petrol">القطاعات الحالية</h3>
         {sectors.length === 0 ? (
-          <EmptyState description="Create sectors before assigning projects to filter groups." title="No sectors found" />
+          <EmptyState description="أنشئ القطاعات قبل ربط المشاريع بها واستخدامها في التصفية." title="لا توجد قطاعات" />
         ) : (
           <div className="space-y-4">
             {sectors.map((sector) => {
@@ -114,14 +114,14 @@ export default async function AdminSectorsPage({ searchParams }: AdminSectorsPag
                           <h4 className="text-lg font-semibold text-petrol">{ar?.title || sector.slug}</h4>
                           <CmsStatus isPublished={sector.isPublished} />
                         </div>
-                        <p className="mt-1 text-sm text-petrol/55">{sector._count.projects} linked projects</p>
+                        <p className="mt-1 text-sm text-petrol/55">{sector._count.projects} مشروع مرتبط</p>
                       </div>
                     </div>
                     <div className="grid gap-4 lg:grid-cols-4">
-                      <TextField defaultValue={sector.slug} label="Slug" name="slug" required />
-                      <TextField defaultValue={sector.icon} label="Icon token" name="icon" />
-                      <TextField defaultValue={sector.sortOrder} label="Sort order" name="sortOrder" type="number" />
-                      <CheckboxField defaultChecked={sector.isPublished} label="Published" name="isPublished" />
+                      <TextField defaultValue={sector.slug} label="الرابط" name="slug" required />
+                      <TextField defaultValue={sector.icon} label="رمز الأيقونة" name="icon" />
+                      <TextField defaultValue={sector.sortOrder} label="ترتيب العرض" name="sortOrder" type="number" />
+                      <CheckboxField defaultChecked={sector.isPublished} label="منشور" name="isPublished" />
                     </div>
                     <LocaleTabs
                       ar={

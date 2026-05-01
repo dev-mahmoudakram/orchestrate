@@ -26,12 +26,12 @@ type AdminPagesPageProps = {
 };
 
 const errorMessages: Record<string, string> = {
-  "duplicate-slug-or-key": "A page with this key or slug already exists.",
-  "invalid-key": "Page key must use lowercase letters, numbers, dots, underscores, or hyphens.",
-  "invalid-slug": "Slug must use lowercase letters, numbers, and hyphens.",
-  "invalid-sections-json": "Sections must be valid JSON.",
-  "missing-arabic-title": "Arabic title is required.",
-  "missing-id": "The selected page could not be found.",
+  "duplicate-slug-or-key": "توجد صفحة بنفس المفتاح أو الرابط بالفعل.",
+  "invalid-key": "مفتاح الصفحة يجب أن يحتوي على أحرف صغيرة أو أرقام أو نقاط أو شرطات فقط.",
+  "invalid-slug": "الرابط يجب أن يحتوي على أحرف صغيرة وأرقام وشرطات فقط.",
+  "invalid-sections-json": "حقول الأقسام يجب أن تكون JSON صحيح.",
+  "missing-arabic-title": "العنوان العربي مطلوب.",
+  "missing-id": "تعذر العثور على الصفحة المحددة.",
 };
 
 function translation<T extends { locale: Locale }>(items: T[], locale: Locale) {
@@ -63,26 +63,26 @@ function PageTranslationFields({
 
   return (
     <div className="grid gap-4 lg:grid-cols-2">
-      <TextField defaultValue={title} dir={dir} label="Title" name={`${prefix}Title`} required={requiredTitle} />
-      <TextField defaultValue={seoTitle} dir={dir} label="SEO title" name={`${prefix}SeoTitle`} />
+      <TextField defaultValue={title} dir={dir} label="العنوان" name={`${prefix}Title`} required={requiredTitle} />
+      <TextField defaultValue={seoTitle} dir={dir} label="عنوان SEO" name={`${prefix}SeoTitle`} />
       <div className="lg:col-span-2">
-        <TextAreaField defaultValue={summary} dir={dir} label="Summary" name={`${prefix}Summary`} rows={3} />
+        <TextAreaField defaultValue={summary} dir={dir} label="الملخص" name={`${prefix}Summary`} rows={3} />
       </div>
       <div className="lg:col-span-2">
-        <TextAreaField defaultValue={body} dir={dir} label="Body" name={`${prefix}Body`} rows={7} />
+        <TextAreaField defaultValue={body} dir={dir} label="المحتوى" name={`${prefix}Body`} rows={7} />
       </div>
       <div className="lg:col-span-2">
         <TextAreaField
           defaultValue={sectionsValue}
           dir="ltr"
-          label="Sections JSON"
+          label="أقسام JSON"
           name={`${prefix}Sections`}
           placeholder='{"hero":{"headline":""}}'
           rows={8}
         />
       </div>
       <div className="lg:col-span-2">
-        <TextAreaField defaultValue={seoDescription} dir={dir} label="SEO description" name={`${prefix}SeoDescription`} rows={3} />
+        <TextAreaField defaultValue={seoDescription} dir={dir} label="وصف SEO" name={`${prefix}SeoDescription`} rows={3} />
       </div>
     </div>
   );
@@ -100,22 +100,22 @@ export default async function AdminPagesPage({ searchParams }: AdminPagesPagePro
     <div className="space-y-8">
       <AdminPageHeading
         count={pages.length}
-        description="Create and maintain reusable public pages with Arabic-first content, optional English copy, publish state, and SEO fields."
-        label="CMS"
-        title="Pages"
+        description="إنشاء وإدارة صفحات الموقع العامة بمحتوى عربي أساسي، ومحتوى إنجليزي اختياري، وحالة نشر، وحقول SEO."
+        label="إدارة المحتوى"
+        title="الصفحات"
       />
 
-      {error ? <CmsNotice message={errorMessages[error] ?? "Page could not be saved."} tone="error" /> : null}
-      {saved ? <CmsNotice message={`Page saved: ${saved}`} /> : null}
+      {error ? <CmsNotice message={errorMessages[error] ?? "تعذر حفظ الصفحة."} tone="error" /> : null}
+      {saved ? <CmsNotice message={`تم حفظ الصفحة: ${saved}`} /> : null}
 
       <Card>
-        <h3 className="text-xl font-semibold text-petrol">Create page</h3>
+        <h3 className="text-xl font-semibold text-petrol">إنشاء صفحة</h3>
         <form action={createPageAction} className="mt-6 space-y-5">
           <div className="grid gap-4 lg:grid-cols-4">
-            <TextField label="Page key" name="key" placeholder="about" required />
-            <TextField label="Slug" name="slug" placeholder="about" required />
-            <TextField defaultValue={0} label="Sort order" name="sortOrder" type="number" />
-            <CheckboxField label="Published" name="isPublished" />
+            <TextField label="مفتاح الصفحة" name="key" placeholder="about" required />
+            <TextField label="الرابط" name="slug" placeholder="about" required />
+            <TextField defaultValue={0} label="ترتيب العرض" name="sortOrder" type="number" />
+            <CheckboxField label="منشور" name="isPublished" />
           </div>
           <LocaleTabs
             ar={<PageTranslationFields dir="rtl" prefix="ar" requiredTitle />}
@@ -126,9 +126,9 @@ export default async function AdminPagesPage({ searchParams }: AdminPagesPagePro
       </Card>
 
       <section className="space-y-4">
-        <h3 className="text-xl font-semibold text-petrol">Existing pages</h3>
+        <h3 className="text-xl font-semibold text-petrol">الصفحات الحالية</h3>
         {pages.length === 0 ? (
-          <EmptyState description="Create the first CMS page to begin managing public page content." title="No pages found" />
+          <EmptyState description="أنشئ أول صفحة للبدء في إدارة محتوى صفحات الموقع." title="لا توجد صفحات" />
         ) : (
           <div className="space-y-4">
             {pages.map((page) => {
@@ -149,10 +149,10 @@ export default async function AdminPagesPage({ searchParams }: AdminPagesPagePro
                       </div>
                     </div>
                     <div className="grid gap-4 lg:grid-cols-4">
-                      <TextField defaultValue={page.key} label="Page key" name="key" required />
-                      <TextField defaultValue={page.slug} label="Slug" name="slug" required />
-                      <TextField defaultValue={page.sortOrder} label="Sort order" name="sortOrder" type="number" />
-                      <CheckboxField defaultChecked={page.isPublished} label="Published" name="isPublished" />
+                      <TextField defaultValue={page.key} label="مفتاح الصفحة" name="key" required />
+                      <TextField defaultValue={page.slug} label="الرابط" name="slug" required />
+                      <TextField defaultValue={page.sortOrder} label="ترتيب العرض" name="sortOrder" type="number" />
+                      <CheckboxField defaultChecked={page.isPublished} label="منشور" name="isPublished" />
                     </div>
                     <LocaleTabs
                       ar={

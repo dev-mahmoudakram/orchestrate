@@ -6,8 +6,8 @@ export default async function AdminSettingsPage() {
 
   return (
     <EmptyState
-      description="This route is guarded for SUPER_ADMIN only. Site settings for contact data, social links, and global metadata will be implemented with the database."
-      title="Settings placeholder"
+      description="هذه الصفحة متاحة للمدير العام فقط. سيتم تنفيذ إعدادات بيانات التواصل والروابط الاجتماعية والبيانات العامة من قاعدة البيانات."
+      title="الإعدادات"
     />
   );
 }

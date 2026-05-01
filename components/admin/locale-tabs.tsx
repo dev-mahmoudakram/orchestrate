@@ -13,7 +13,7 @@ export function LocaleTabs({ ar, en }: LocaleTabsProps) {
 
   return (
     <div className="rounded-lg border border-petrol/10 bg-soft-gray/50 p-3">
-      <div aria-label="Content language" className="inline-flex rounded-md border border-petrol/10 bg-white p-1" role="tablist">
+      <div aria-label="لغة المحتوى" className="inline-flex rounded-md border border-petrol/10 bg-white p-1" role="tablist">
         <button
           aria-controls={`${id}-ar-panel`}
           aria-selected={activeLocale === "ar"}
@@ -25,7 +25,7 @@ export function LocaleTabs({ ar, en }: LocaleTabsProps) {
           role="tab"
           type="button"
         >
-          Arabic
+          العربية
         </button>
         <button
           aria-controls={`${id}-en-panel`}
@@ -38,7 +38,7 @@ export function LocaleTabs({ ar, en }: LocaleTabsProps) {
           role="tab"
           type="button"
         >
-          English
+          الإنجليزية
         </button>
       </div>
 

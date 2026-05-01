@@ -27,10 +27,10 @@ type AdminProjectsPageProps = {
 };
 
 const errorMessages: Record<string, string> = {
-  "duplicate-slug-or-key": "A project with this slug already exists.",
-  "invalid-slug": "Slug must use lowercase letters, numbers, and hyphens.",
-  "missing-arabic-title": "Arabic project title is required.",
-  "missing-id": "The selected project could not be found.",
+  "duplicate-slug-or-key": "يوجد مشروع بنفس الرابط بالفعل.",
+  "invalid-slug": "الرابط يجب أن يحتوي على أحرف صغيرة وأرقام وشرطات فقط.",
+  "missing-arabic-title": "عنوان المشروع بالعربية مطلوب.",
+  "missing-id": "تعذر العثور على المشروع المحدد.",
 };
 
 function translation<T extends { locale: Locale }>(items: T[], locale: Locale) {
@@ -64,17 +64,17 @@ function ProjectTranslationFields({
 }) {
   return (
     <div className="grid gap-4 lg:grid-cols-2">
-      <TextField defaultValue={title} dir={dir} label="Title" name={`${prefix}Title`} required={requiredTitle} />
-      <TextField defaultValue={seoTitle} dir={dir} label="SEO title" name={`${prefix}SeoTitle`} />
+      <TextField defaultValue={title} dir={dir} label="العنوان" name={`${prefix}Title`} required={requiredTitle} />
+      <TextField defaultValue={seoTitle} dir={dir} label="عنوان SEO" name={`${prefix}SeoTitle`} />
       <div className="lg:col-span-2">
-        <TextAreaField defaultValue={summary} dir={dir} label="Summary" name={`${prefix}Summary`} rows={3} />
+        <TextAreaField defaultValue={summary} dir={dir} label="الملخص" name={`${prefix}Summary`} rows={3} />
       </div>
-      <TextAreaField defaultValue={challenge} dir={dir} label="Challenge" name={`${prefix}Challenge`} rows={4} />
-      <TextAreaField defaultValue={approach} dir={dir} label="Approach" name={`${prefix}Approach`} rows={4} />
-      <TextAreaField defaultValue={results} dir={dir} label="Results" name={`${prefix}Results`} rows={4} />
-      <TextAreaField defaultValue={seoDescription} dir={dir} label="SEO description" name={`${prefix}SeoDescription`} rows={4} />
+      <TextAreaField defaultValue={challenge} dir={dir} label="التحدي" name={`${prefix}Challenge`} rows={4} />
+      <TextAreaField defaultValue={approach} dir={dir} label="المنهجية" name={`${prefix}Approach`} rows={4} />
+      <TextAreaField defaultValue={results} dir={dir} label="النتائج" name={`${prefix}Results`} rows={4} />
+      <TextAreaField defaultValue={seoDescription} dir={dir} label="وصف SEO" name={`${prefix}SeoDescription`} rows={4} />
       <div className="lg:col-span-2">
-        <TextAreaField defaultValue={body} dir={dir} label="Long body" name={`${prefix}Body`} rows={7} />
+        <TextAreaField defaultValue={body} dir={dir} label="المحتوى التفصيلي" name={`${prefix}Body`} rows={7} />
       </div>
     </div>
   );
@@ -87,7 +87,7 @@ function SectorOptions({
 }) {
   return (
     <>
-      <option value="">No sector</option>
+      <option value="">بدون قطاع</option>
       {sectors.map((sector) => {
         const ar = translation(sector.translations, Locale.ar);
 
@@ -123,25 +123,25 @@ export default async function AdminProjectsPage({ searchParams }: AdminProjectsP
     <div className="space-y-8">
       <AdminPageHeading
         count={projects.length}
-        description="Manage case studies with sector relation, featured state, bilingual challenge/approach/results copy, and SEO fields."
-        label="CMS"
-        title="Projects"
+        description="إدارة دراسات الحالة مع ربط القطاع، وحالة التمييز، ونصوص التحدي والمنهجية والنتائج باللغتين، وحقول SEO."
+        label="إدارة المحتوى"
+        title="المشاريع"
       />
 
-      {error ? <CmsNotice message={errorMessages[error] ?? "Project could not be saved."} tone="error" /> : null}
-      {saved ? <CmsNotice message={`Project saved: ${saved}`} /> : null}
+      {error ? <CmsNotice message={errorMessages[error] ?? "تعذر حفظ المشروع."} tone="error" /> : null}
+      {saved ? <CmsNotice message={`تم حفظ المشروع: ${saved}`} /> : null}
 
       <Card>
-        <h3 className="text-xl font-semibold text-petrol">Create project</h3>
+        <h3 className="text-xl font-semibold text-petrol">إنشاء مشروع</h3>
         <form action={createProjectAction} className="mt-6 space-y-5">
           <div className="grid gap-4 lg:grid-cols-5">
-            <TextField label="Slug" name="slug" placeholder="national-platform" required />
-            <SelectField label="Sector" name="sectorId">
+            <TextField label="الرابط" name="slug" placeholder="national-platform" required />
+            <SelectField label="القطاع" name="sectorId">
               <SectorOptions sectors={sectors} />
             </SelectField>
-            <TextField defaultValue={0} label="Sort order" name="sortOrder" type="number" />
-            <CheckboxField label="Featured" name="isFeatured" />
-            <CheckboxField label="Published" name="isPublished" />
+            <TextField defaultValue={0} label="ترتيب العرض" name="sortOrder" type="number" />
+            <CheckboxField label="مميز" name="isFeatured" />
+            <CheckboxField label="منشور" name="isPublished" />
           </div>
           <LocaleTabs
             ar={<ProjectTranslationFields dir="rtl" prefix="ar" requiredTitle />}
@@ -152,9 +152,9 @@ export default async function AdminProjectsPage({ searchParams }: AdminProjectsP
       </Card>
 
       <section className="space-y-4">
-        <h3 className="text-xl font-semibold text-petrol">Existing projects</h3>
+        <h3 className="text-xl font-semibold text-petrol">المشاريع الحالية</h3>
         {projects.length === 0 ? (
-          <EmptyState description="Create a project once sectors are available for public filtering." title="No projects found" />
+          <EmptyState description="أنشئ مشروعاً بعد توفر القطاعات لاستخدامها في تصفية الموقع." title="لا توجد مشاريع" />
         ) : (
           <div className="space-y-4">
             {projects.map((project) => {
@@ -171,21 +171,21 @@ export default async function AdminProjectsPage({ searchParams }: AdminProjectsP
                         <div className="flex flex-wrap items-center gap-2">
                           <h4 className="text-lg font-semibold text-petrol">{ar?.title || project.slug}</h4>
                           <CmsStatus isPublished={project.isPublished} />
-                          {project.isFeatured ? <span className="text-xs font-semibold text-orange">Featured</span> : null}
+                          {project.isFeatured ? <span className="text-xs font-semibold text-orange">مميز</span> : null}
                         </div>
                         <p className="mt-1 text-sm text-petrol/55">
-                          {sectorAr?.title || project.sector?.slug || "No sector"} · /projects/{project.slug}
+                          {sectorAr?.title || project.sector?.slug || "بدون قطاع"} - /projects/{project.slug}
                         </p>
                       </div>
                     </div>
                     <div className="grid gap-4 lg:grid-cols-5">
-                      <TextField defaultValue={project.slug} label="Slug" name="slug" required />
-                      <SelectField defaultValue={project.sectorId} label="Sector" name="sectorId">
+                      <TextField defaultValue={project.slug} label="الرابط" name="slug" required />
+                      <SelectField defaultValue={project.sectorId} label="القطاع" name="sectorId">
                         <SectorOptions sectors={sectors} />
                       </SelectField>
-                      <TextField defaultValue={project.sortOrder} label="Sort order" name="sortOrder" type="number" />
-                      <CheckboxField defaultChecked={project.isFeatured} label="Featured" name="isFeatured" />
-                      <CheckboxField defaultChecked={project.isPublished} label="Published" name="isPublished" />
+                      <TextField defaultValue={project.sortOrder} label="ترتيب العرض" name="sortOrder" type="number" />
+                      <CheckboxField defaultChecked={project.isFeatured} label="مميز" name="isFeatured" />
+                      <CheckboxField defaultChecked={project.isPublished} label="منشور" name="isPublished" />
                     </div>
                     <LocaleTabs
                       ar={

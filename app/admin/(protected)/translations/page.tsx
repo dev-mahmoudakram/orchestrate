@@ -17,8 +17,8 @@ type AdminTranslationsPageProps = {
 };
 
 const errorMessages: Record<string, string> = {
-  "duplicate-key": "A translation key with this name already exists.",
-  "missing-required-fields": "Key, group, and Arabic value are required.",
+  "duplicate-key": "يوجد مفتاح ترجمة بهذا الاسم بالفعل.",
+  "missing-required-fields": "المفتاح والمجموعة والقيمة العربية مطلوبة.",
 };
 
 export default async function AdminTranslationsPage({ searchParams }: AdminTranslationsPageProps) {
@@ -51,10 +51,10 @@ export default async function AdminTranslationsPage({ searchParams }: AdminTrans
     <div className="space-y-8">
       <header className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <Badge tone="orange">Translation Panel</Badge>
-          <h2 className="mt-4 text-3xl font-semibold text-petrol">UI translation keys</h2>
+          <Badge tone="orange">لوحة الترجمة</Badge>
+          <h2 className="mt-4 text-3xl font-semibold text-petrol">مفاتيح ترجمة الواجهة</h2>
           <p className="mt-3 max-w-3xl text-sm leading-7 text-petrol/65">
-            Manage repeated interface labels for Arabic and English. Arabic is required and English can fall back to Arabic until translated.
+            إدارة العبارات المتكررة في الواجهة باللغتين العربية والإنجليزية. القيمة العربية مطلوبة، ويمكن للإنجليزية الرجوع للعربية حتى تتم ترجمتها.
           </p>
         </div>
         <form className="flex flex-col gap-3 sm:flex-row" method="GET">
@@ -62,16 +62,16 @@ export default async function AdminTranslationsPage({ searchParams }: AdminTrans
             className="min-h-11 rounded-md border border-petrol/15 bg-white px-3 text-sm text-petrol outline-none focus:border-orange"
             defaultValue={search}
             name="q"
-            placeholder="Search keys or labels"
+            placeholder="ابحث في المفاتيح أو النصوص"
             type="search"
           />
           <select
-            aria-label="Filter translation keys by group"
+            aria-label="تصفية مفاتيح الترجمة حسب المجموعة"
             className="min-h-11 rounded-md border border-petrol/15 bg-white px-3 text-sm text-petrol outline-none focus:border-orange"
             defaultValue={selectedGroup}
             name="group"
           >
-            <option value="">All groups</option>
+            <option value="">كل المجموعات</option>
             {groups.map((item) => (
               <option key={item} value={item}>
                 {item}
@@ -82,32 +82,32 @@ export default async function AdminTranslationsPage({ searchParams }: AdminTrans
             className="inline-flex min-h-11 items-center justify-center rounded-md bg-petrol px-5 text-sm font-semibold text-white transition hover:bg-[#123238]"
             type="submit"
           >
-            Filter
+            تصفية
           </button>
         </form>
       </header>
 
       {error ? (
         <p className="rounded-md border border-orange/25 bg-orange/10 px-4 py-3 text-sm font-medium text-petrol">
-          {errorMessages[error] ?? "The translation key could not be saved."}
+          {errorMessages[error] ?? "تعذر حفظ مفتاح الترجمة."}
         </p>
       ) : null}
       {created ? (
         <p className="rounded-md border border-turquoise/40 bg-turquoise/15 px-4 py-3 text-sm font-medium text-petrol">
-          Created translation key: {created}
+          تم إنشاء مفتاح الترجمة: {created}
         </p>
       ) : null}
       {updated ? (
         <p className="rounded-md border border-turquoise/40 bg-turquoise/15 px-4 py-3 text-sm font-medium text-petrol">
-          Translation key updated.
+          تم تحديث مفتاح الترجمة.
         </p>
       ) : null}
 
       <Card>
-        <h3 className="text-xl font-semibold text-petrol">Create translation key</h3>
+        <h3 className="text-xl font-semibold text-petrol">إنشاء مفتاح ترجمة</h3>
         <form action={createTranslationKeyAction} className="mt-6 grid gap-4 lg:grid-cols-2">
           <label className="flex flex-col justify-between">
-            <span className="text-sm font-medium text-petrol">Key</span>
+            <span className="text-sm font-medium text-petrol">المفتاح</span>
             <input
               className="mt-2 min-h-11 w-full rounded-md border border-petrol/15 bg-white px-3 text-petrol outline-none focus:border-orange"
               name="key"
@@ -116,7 +116,7 @@ export default async function AdminTranslationsPage({ searchParams }: AdminTrans
             />
           </label>
           <label className="flex flex-col justify-between">
-            <span className="text-sm font-medium text-petrol">Group</span>
+            <span className="text-sm font-medium text-petrol">المجموعة</span>
             <input
               className="mt-2 min-h-11 w-full rounded-md border border-petrol/15 bg-white px-3 text-petrol outline-none focus:border-orange"
               name="group"
@@ -125,7 +125,7 @@ export default async function AdminTranslationsPage({ searchParams }: AdminTrans
             />
           </label>
           <label className="flex flex-col justify-between">
-            <span className="text-sm font-medium text-petrol">Arabic</span>
+            <span className="text-sm font-medium text-petrol">العربية</span>
             <textarea
               className="mt-2 min-h-28 w-full rounded-md border border-petrol/15 bg-white px-3 py-3 text-petrol outline-none focus:border-orange"
               dir="rtl"
@@ -134,7 +134,7 @@ export default async function AdminTranslationsPage({ searchParams }: AdminTrans
             />
           </label>
           <label className="flex flex-col justify-between">
-            <span className="text-sm font-medium text-petrol">English</span>
+            <span className="text-sm font-medium text-petrol">الإنجليزية</span>
             <textarea
               className="mt-2 min-h-28 w-full rounded-md border border-petrol/15 bg-white px-3 py-3 text-petrol outline-none focus:border-orange"
               dir="ltr"
@@ -142,11 +142,11 @@ export default async function AdminTranslationsPage({ searchParams }: AdminTrans
             />
           </label>
           <label className="flex flex-col justify-between lg:col-span-2">
-            <span className="text-sm font-medium text-petrol">Description</span>
+            <span className="text-sm font-medium text-petrol">الوصف</span>
             <input
               className="mt-2 min-h-11 w-full rounded-md border border-petrol/15 bg-white px-3 text-petrol outline-none focus:border-orange"
               name="description"
-              placeholder="Where this label is used"
+              placeholder="مكان استخدام هذا النص"
             />
           </label>
           <div className="lg:col-span-2">
@@ -154,7 +154,7 @@ export default async function AdminTranslationsPage({ searchParams }: AdminTrans
               className="inline-flex min-h-11 items-center justify-center rounded-md bg-orange px-5 text-sm font-semibold text-white transition hover:bg-[#d76719]"
               type="submit"
             >
-              Create key
+              إنشاء المفتاح
             </button>
           </div>
         </form>
@@ -162,14 +162,14 @@ export default async function AdminTranslationsPage({ searchParams }: AdminTrans
 
       <section className="space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h3 className="text-xl font-semibold text-petrol">Existing keys</h3>
-          <span className="text-sm text-petrol/65">{translationKeys.length} records</span>
+          <h3 className="text-xl font-semibold text-petrol">المفاتيح الحالية</h3>
+          <span className="text-sm text-petrol/65">{translationKeys.length} سجل</span>
         </div>
 
         {translationKeys.length === 0 ? (
           <EmptyState
-            description="Try changing the search or group filter, or create a new key."
-            title="No translation keys found"
+            description="جرّب تغيير البحث أو تصفية المجموعة، أو أنشئ مفتاحاً جديداً."
+            title="لا توجد مفاتيح ترجمة"
           />
         ) : (
           <div className="space-y-4">
@@ -182,11 +182,11 @@ export default async function AdminTranslationsPage({ searchParams }: AdminTrans
                     <input name="id" type="hidden" value={translationKey.id} />
                     <div className="space-y-3">
                       <div>
-                        <p className="text-xs font-semibold uppercase text-petrol/50">Key</p>
+                        <p className="text-xs font-semibold text-petrol/50">المفتاح</p>
                         <p className="mt-1 font-mono text-sm text-petrol">{translationKey.key}</p>
                       </div>
                       <label className="flex flex-col justify-between">
-                        <span className="text-xs font-semibold uppercase text-petrol/50">Group</span>
+                        <span className="text-xs font-semibold text-petrol/50">المجموعة</span>
                         <input
                           className="mt-2 min-h-10 w-full rounded-md border border-petrol/15 bg-white px-3 text-sm text-petrol outline-none focus:border-orange"
                           defaultValue={translationKey.group}
@@ -195,7 +195,7 @@ export default async function AdminTranslationsPage({ searchParams }: AdminTrans
                         />
                       </label>
                       <label className="flex flex-col justify-between">
-                        <span className="text-xs font-semibold uppercase text-petrol/50">Description</span>
+                        <span className="text-xs font-semibold text-petrol/50">الوصف</span>
                         <input
                           className="mt-2 min-h-10 w-full rounded-md border border-petrol/15 bg-white px-3 text-sm text-petrol outline-none focus:border-orange"
                           defaultValue={translationKey.description ?? ""}
@@ -205,7 +205,7 @@ export default async function AdminTranslationsPage({ searchParams }: AdminTrans
                     </div>
 
                     <label className="flex flex-col justify-between">
-                      <span className="text-xs font-semibold uppercase text-petrol/50">Arabic</span>
+                      <span className="text-xs font-semibold text-petrol/50">العربية</span>
                       <textarea
                         className="mt-2 min-h-40 w-full rounded-md border border-petrol/15 bg-white px-3 py-3 text-sm leading-7 text-petrol outline-none focus:border-orange"
                         defaultValue={translationKey.ar}
@@ -216,9 +216,9 @@ export default async function AdminTranslationsPage({ searchParams }: AdminTrans
                     </label>
 
                     <label className="flex flex-col justify-between">
-                      <span className="flex items-center gap-2 text-xs font-semibold uppercase text-petrol/50">
-                        English
-                        {englishMissing ? <Badge tone="orange">Missing</Badge> : null}
+                      <span className="flex items-center gap-2 text-xs font-semibold text-petrol/50">
+                        الإنجليزية
+                        {englishMissing ? <Badge tone="orange">غير مكتملة</Badge> : null}
                       </span>
                       <textarea
                         className="mt-2 min-h-40 w-full rounded-md border border-petrol/15 bg-white px-3 py-3 text-sm leading-7 text-petrol outline-none focus:border-orange"
@@ -233,7 +233,7 @@ export default async function AdminTranslationsPage({ searchParams }: AdminTrans
                         className="inline-flex min-h-11 items-center justify-center rounded-md border border-petrol/15 bg-white px-5 text-sm font-semibold text-petrol transition hover:border-orange hover:text-orange"
                         type="submit"
                       >
-                        Save
+                        حفظ
                       </button>
                     </div>
                   </form>

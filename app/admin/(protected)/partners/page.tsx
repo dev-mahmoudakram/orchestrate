@@ -26,10 +26,10 @@ type AdminPartnersPageProps = {
 };
 
 const errorMessages: Record<string, string> = {
-  "duplicate-slug-or-key": "A partner with this slug already exists.",
-  "invalid-slug": "Slug must use lowercase letters, numbers, and hyphens.",
-  "missing-arabic-title": "Arabic partner name is required.",
-  "missing-id": "The selected partner could not be found.",
+  "duplicate-slug-or-key": "يوجد شريك بنفس الرابط بالفعل.",
+  "invalid-slug": "الرابط يجب أن يحتوي على أحرف صغيرة وأرقام وشرطات فقط.",
+  "missing-arabic-title": "اسم الشريك بالعربية مطلوب.",
+  "missing-id": "تعذر العثور على الشريك المحدد.",
 };
 
 function translation<T extends { locale: Locale }>(items: T[], locale: Locale) {
@@ -51,8 +51,8 @@ function PartnerTranslationFields({
 }) {
   return (
     <div className="grid gap-4">
-      <TextField defaultValue={name} dir={dir} label="Name" name={`${prefix}Name`} required={requiredName} />
-      <TextAreaField defaultValue={description} dir={dir} label="Description" name={`${prefix}Description`} rows={4} />
+      <TextField defaultValue={name} dir={dir} label="الاسم" name={`${prefix}Name`} required={requiredName} />
+      <TextAreaField defaultValue={description} dir={dir} label="الوصف" name={`${prefix}Description`} rows={4} />
     </div>
   );
 }
@@ -69,22 +69,22 @@ export default async function AdminPartnersPage({ searchParams }: AdminPartnersP
     <div className="space-y-8">
       <AdminPageHeading
         count={partners.length}
-        description="Manage partner records, public visibility, website links, and bilingual partner descriptions. Logo upload will be connected in the media phase."
-        label="CMS"
-        title="Partners"
+        description="إدارة الشركاء، وحالة الظهور في الموقع، وروابط المواقع، ووصف الشريك باللغتين. سيتم ربط الشعارات في مرحلة الوسائط."
+        label="إدارة المحتوى"
+        title="الشركاء"
       />
 
-      {error ? <CmsNotice message={errorMessages[error] ?? "Partner could not be saved."} tone="error" /> : null}
-      {saved ? <CmsNotice message={`Partner saved: ${saved}`} /> : null}
+      {error ? <CmsNotice message={errorMessages[error] ?? "تعذر حفظ الشريك."} tone="error" /> : null}
+      {saved ? <CmsNotice message={`تم حفظ الشريك: ${saved}`} /> : null}
 
       <Card>
-        <h3 className="text-xl font-semibold text-petrol">Create partner</h3>
+        <h3 className="text-xl font-semibold text-petrol">إنشاء شريك</h3>
         <form action={createPartnerAction} className="mt-6 space-y-5">
           <div className="grid gap-4 lg:grid-cols-4">
-            <TextField label="Slug" name="slug" placeholder="strategic-partner" required />
-            <TextField label="Website URL" name="websiteUrl" placeholder="https://example.com" type="url" />
-            <TextField defaultValue={0} label="Sort order" name="sortOrder" type="number" />
-            <CheckboxField label="Published" name="isPublished" />
+            <TextField label="الرابط" name="slug" placeholder="strategic-partner" required />
+            <TextField label="رابط الموقع" name="websiteUrl" placeholder="https://example.com" type="url" />
+            <TextField defaultValue={0} label="ترتيب العرض" name="sortOrder" type="number" />
+            <CheckboxField label="منشور" name="isPublished" />
           </div>
           <LocaleTabs
             ar={<PartnerTranslationFields dir="rtl" prefix="ar" requiredName />}
@@ -95,9 +95,9 @@ export default async function AdminPartnersPage({ searchParams }: AdminPartnersP
       </Card>
 
       <section className="space-y-4">
-        <h3 className="text-xl font-semibold text-petrol">Existing partners</h3>
+        <h3 className="text-xl font-semibold text-petrol">الشركاء الحاليون</h3>
         {partners.length === 0 ? (
-          <EmptyState description="Create partner records now; logo selection will arrive with uploads and media." title="No partners found" />
+          <EmptyState description="أنشئ سجلات الشركاء الآن؛ وسيتم إضافة اختيار الشعارات مع مرحلة الوسائط." title="لا يوجد شركاء" />
         ) : (
           <div className="space-y-4">
             {partners.map((partner) => {
@@ -114,14 +114,14 @@ export default async function AdminPartnersPage({ searchParams }: AdminPartnersP
                           <h4 className="text-lg font-semibold text-petrol">{ar?.name || partner.slug}</h4>
                           <CmsStatus isPublished={partner.isPublished} />
                         </div>
-                        <p className="mt-1 text-sm text-petrol/55">{partner.websiteUrl || "No website URL"}</p>
+                        <p className="mt-1 text-sm text-petrol/55">{partner.websiteUrl || "لا يوجد رابط موقع"}</p>
                       </div>
                     </div>
                     <div className="grid gap-4 lg:grid-cols-4">
-                      <TextField defaultValue={partner.slug} label="Slug" name="slug" required />
-                      <TextField defaultValue={partner.websiteUrl} label="Website URL" name="websiteUrl" type="url" />
-                      <TextField defaultValue={partner.sortOrder} label="Sort order" name="sortOrder" type="number" />
-                      <CheckboxField defaultChecked={partner.isPublished} label="Published" name="isPublished" />
+                      <TextField defaultValue={partner.slug} label="الرابط" name="slug" required />
+                      <TextField defaultValue={partner.websiteUrl} label="رابط الموقع" name="websiteUrl" type="url" />
+                      <TextField defaultValue={partner.sortOrder} label="ترتيب العرض" name="sortOrder" type="number" />
+                      <CheckboxField defaultChecked={partner.isPublished} label="منشور" name="isPublished" />
                     </div>
                     <LocaleTabs
                       ar={

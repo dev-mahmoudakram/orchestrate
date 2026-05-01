@@ -6,8 +6,8 @@ export default async function AdminUsersPage() {
 
   return (
     <EmptyState
-      description="This route is guarded for SUPER_ADMIN only. User management CRUD will be implemented in a later admin CMS phase."
-      title="Users management placeholder"
+      description="هذه الصفحة متاحة للمدير العام فقط. سيتم تنفيذ إدارة المستخدمين والصلاحيات في مرحلة لاحقة."
+      title="إدارة المستخدمين"
     />
   );
 }

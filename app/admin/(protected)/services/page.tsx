@@ -26,10 +26,10 @@ type AdminServicesPageProps = {
 };
 
 const errorMessages: Record<string, string> = {
-  "duplicate-slug-or-key": "A service with this slug already exists.",
-  "invalid-slug": "Slug must use lowercase letters, numbers, and hyphens.",
-  "missing-arabic-title": "Arabic service title is required.",
-  "missing-id": "The selected service could not be found.",
+  "duplicate-slug-or-key": "توجد خدمة بنفس الرابط بالفعل.",
+  "invalid-slug": "الرابط يجب أن يحتوي على أحرف صغيرة وأرقام وشرطات فقط.",
+  "missing-arabic-title": "عنوان الخدمة بالعربية مطلوب.",
+  "missing-id": "تعذر العثور على الخدمة المحددة.",
 };
 
 function translation<T extends { locale: Locale }>(items: T[], locale: Locale) {
@@ -57,16 +57,16 @@ function ServiceTranslationFields({
 }) {
   return (
     <div className="grid gap-4 lg:grid-cols-2">
-      <TextField defaultValue={title} dir={dir} label="Title" name={`${prefix}Title`} required={requiredTitle} />
-      <TextField defaultValue={seoTitle} dir={dir} label="SEO title" name={`${prefix}SeoTitle`} />
+      <TextField defaultValue={title} dir={dir} label="العنوان" name={`${prefix}Title`} required={requiredTitle} />
+      <TextField defaultValue={seoTitle} dir={dir} label="عنوان SEO" name={`${prefix}SeoTitle`} />
       <div className="lg:col-span-2">
-        <TextAreaField defaultValue={summary} dir={dir} label="Summary" name={`${prefix}Summary`} rows={3} />
+        <TextAreaField defaultValue={summary} dir={dir} label="الملخص" name={`${prefix}Summary`} rows={3} />
       </div>
       <div className="lg:col-span-2">
-        <TextAreaField defaultValue={body} dir={dir} label="Body" name={`${prefix}Body`} rows={7} />
+        <TextAreaField defaultValue={body} dir={dir} label="المحتوى" name={`${prefix}Body`} rows={7} />
       </div>
       <div className="lg:col-span-2">
-        <TextAreaField defaultValue={seoDescription} dir={dir} label="SEO description" name={`${prefix}SeoDescription`} rows={3} />
+        <TextAreaField defaultValue={seoDescription} dir={dir} label="وصف SEO" name={`${prefix}SeoDescription`} rows={3} />
       </div>
     </div>
   );
@@ -84,22 +84,22 @@ export default async function AdminServicesPage({ searchParams }: AdminServicesP
     <div className="space-y-8">
       <AdminPageHeading
         count={services.length}
-        description="Manage service cards and detail copy with bilingual descriptions, publish control, icon token, and SEO fields."
-        label="CMS"
-        title="Services"
+        description="إدارة بطاقات الخدمات وتفاصيلها بنصوص عربية وإنجليزية، وحالة نشر، ورمز أيقونة، وحقول SEO."
+        label="إدارة المحتوى"
+        title="الخدمات"
       />
 
-      {error ? <CmsNotice message={errorMessages[error] ?? "Service could not be saved."} tone="error" /> : null}
-      {saved ? <CmsNotice message={`Service saved: ${saved}`} /> : null}
+      {error ? <CmsNotice message={errorMessages[error] ?? "تعذر حفظ الخدمة."} tone="error" /> : null}
+      {saved ? <CmsNotice message={`تم حفظ الخدمة: ${saved}`} /> : null}
 
       <Card>
-        <h3 className="text-xl font-semibold text-petrol">Create service</h3>
+        <h3 className="text-xl font-semibold text-petrol">إنشاء خدمة</h3>
         <form action={createServiceAction} className="mt-6 space-y-5">
           <div className="grid gap-4 lg:grid-cols-4">
-            <TextField label="Slug" name="slug" placeholder="strategy-design" required />
-            <TextField label="Icon token" name="icon" placeholder="layers" />
-            <TextField defaultValue={0} label="Sort order" name="sortOrder" type="number" />
-            <CheckboxField label="Published" name="isPublished" />
+            <TextField label="الرابط" name="slug" placeholder="strategy-design" required />
+            <TextField label="رمز الأيقونة" name="icon" placeholder="layers" />
+            <TextField defaultValue={0} label="ترتيب العرض" name="sortOrder" type="number" />
+            <CheckboxField label="منشور" name="isPublished" />
           </div>
           <LocaleTabs
             ar={<ServiceTranslationFields dir="rtl" prefix="ar" requiredTitle />}
@@ -110,9 +110,9 @@ export default async function AdminServicesPage({ searchParams }: AdminServicesP
       </Card>
 
       <section className="space-y-4">
-        <h3 className="text-xl font-semibold text-petrol">Existing services</h3>
+        <h3 className="text-xl font-semibold text-petrol">الخدمات الحالية</h3>
         {services.length === 0 ? (
-          <EmptyState description="Create the first service to start building the public services page." title="No services found" />
+          <EmptyState description="أنشئ أول خدمة للبدء في بناء صفحة الخدمات العامة." title="لا توجد خدمات" />
         ) : (
           <div className="space-y-4">
             {services.map((service) => {
@@ -133,10 +133,10 @@ export default async function AdminServicesPage({ searchParams }: AdminServicesP
                       </div>
                     </div>
                     <div className="grid gap-4 lg:grid-cols-4">
-                      <TextField defaultValue={service.slug} label="Slug" name="slug" required />
-                      <TextField defaultValue={service.icon} label="Icon token" name="icon" />
-                      <TextField defaultValue={service.sortOrder} label="Sort order" name="sortOrder" type="number" />
-                      <CheckboxField defaultChecked={service.isPublished} label="Published" name="isPublished" />
+                      <TextField defaultValue={service.slug} label="الرابط" name="slug" required />
+                      <TextField defaultValue={service.icon} label="رمز الأيقونة" name="icon" />
+                      <TextField defaultValue={service.sortOrder} label="ترتيب العرض" name="sortOrder" type="number" />
+                      <CheckboxField defaultChecked={service.isPublished} label="منشور" name="isPublished" />
                     </div>
                     <LocaleTabs
                       ar={

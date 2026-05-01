@@ -11,7 +11,7 @@ export function LoginSubmitButton() {
       disabled={pending}
       type="submit"
     >
-      {pending ? "Signing in..." : "Sign in"}
+      {pending ? "جار تسجيل الدخول..." : "تسجيل الدخول"}
     </button>
   );
 }

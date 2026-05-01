@@ -11,7 +11,7 @@ type AdminShellProps = {
 
 export function AdminShell({ children, user }: AdminShellProps) {
   return (
-    <div className="min-h-screen bg-soft text-petrol" dir="ltr">
+    <div className="min-h-screen bg-soft text-petrol" dir="rtl" lang="ar">
       <div className="flex min-h-screen">
         <Sidebar user={user} />
         <div className="min-w-0 flex-1">
