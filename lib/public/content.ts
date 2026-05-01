@@ -97,6 +97,39 @@ export async function getFeaturedProjects(locale: Locale) {
   }));
 }
 
+export async function getPublishedProjects(locale: Locale, sectorSlug?: string) {
+  const projects = await prisma.project.findMany({
+    where: {
+      deletedAt: null,
+      isPublished: true,
+      ...(sectorSlug
+        ? {
+            sector: {
+              deletedAt: null,
+              isPublished: true,
+              slug: sectorSlug,
+            },
+          }
+        : {}),
+    },
+    include: {
+      sector: {
+        include: {
+          translations: true,
+        },
+      },
+      translations: true,
+    },
+    orderBy: [{ isFeatured: "desc" }, { sortOrder: "asc" }, { updatedAt: "desc" }],
+  });
+
+  return projects.map((project) => ({
+    ...project,
+    sectorTranslation: project.sector ? localized(project.sector.translations, locale) : null,
+    translation: localized(project.translations, locale),
+  }));
+}
+
 export async function getPublishedPartners(locale: Locale) {
   const partners = await prisma.partner.findMany({
     where: {

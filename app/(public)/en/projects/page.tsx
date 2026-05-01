@@ -1,5 +1,13 @@
 import { ProjectsPage } from "@/components/public/projects-page";
 
-export default function EnglishProjectsPage() {
-  return <ProjectsPage locale="en" />;
+type EnglishProjectsPageProps = {
+  searchParams: Promise<{
+    sector?: string;
+  }>;
+};
+
+export default async function EnglishProjectsPage({ searchParams }: EnglishProjectsPageProps) {
+  const { sector } = await searchParams;
+
+  return <ProjectsPage locale="en" selectedSectorSlug={sector} />;
 }
