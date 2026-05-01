@@ -16,6 +16,15 @@ export const metadata: Metadata = {
   },
   description:
     "Premium bilingual corporate website and custom CMS foundation for Orchestrate Innovation.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
+  manifest: "/site.webmanifest",
 };
 
 export default async function RootLayout({
