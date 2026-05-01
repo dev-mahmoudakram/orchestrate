@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { submitContactMessageAction } from "@/app/(public)/contact/actions";
+import { ContactForm } from "@/components/public/contact-form";
 import { Container } from "@/components/ui/container";
 import { localizePath } from "@/lib/i18n/routes";
 import { getPageContent, getPublishedServices, getPublishedTeam } from "@/lib/public/content";
@@ -8,6 +10,7 @@ import type { Locale } from "@/types/locale";
 type StandardPageProps = {
   pageKey: "about" | "services" | "projects" | "contact";
   locale: Locale;
+  contactState?: "sent" | "error";
 };
 
 type PageSections = {
@@ -38,10 +41,10 @@ const labels = {
     name: "الاسم",
     organization: "الجهة",
     email: "البريد الإلكتروني",
+    phoneInput: "رقم الجوال",
     subject: "الموضوع",
     message: "الرسالة",
     submit: "إرسال الرسالة",
-    unavailable: "سيتم تفعيل الإرسال في مرحلة التواصل والبريد.",
     cta: "ابدأ المحادثة",
     method: "منهج عملي",
     focus: "وضوح",
@@ -50,12 +53,16 @@ const labels = {
     discuss: "ناقش الخدمة",
     servicesIntro: "كل خدمة مصممة لتقريب الرؤية من التنفيذ، وتوضيح الأدوار، وبناء أثر قابل للقياس.",
     noServices: "سيتم عرض الخدمات بعد نشرها من لوحة الإدارة.",
-    contactPhase: "نموذج التواصل معروض الآن كواجهة فقط، وسيتم تفعيل الإرسال والحفظ والبريد الإلكتروني في Phase 8.",
+    sent: "تم استلام رسالتك بنجاح. سنراجعها من لوحة الإدارة ونتواصل معك قريباً.",
+    error: "تعذر إرسال الرسالة. تحقق من الحقول المطلوبة وصيغة البريد الإلكتروني ثم حاول مرة أخرى.",
+    contactNote: "يتم حفظ الرسائل الآن في لوحة الإدارة. إشعارات البريد الإلكتروني مؤجلة للمرحلة التالية.",
     location: "الرياض، المملكة العربية السعودية",
     phone: "الهاتف",
     address: "الموقع",
-    readiness: "جاهزية التواصل",
-    readinessBody: "يمكن تجهيز بيانات التواصل والرسائل الآن بصرياً، مع إبقاء المعالجة الفعلية للمرحلة المخصصة للبريد والرسائل.",
+    readiness: "جاهزون للاستماع",
+    readinessBody: "شاركنا التحدي أو المبادرة التي تعمل عليها، وسنراجع تفاصيلها لاقتراح مسار عمل واضح.",
+    hiddenWebsite: "الموقع الإلكتروني",
+    required: "حقول الاسم والبريد والموضوع والرسالة مطلوبة.",
   },
   en: {
     aboutStory: "Story and Method",
@@ -68,10 +75,10 @@ const labels = {
     name: "Name",
     organization: "Organization",
     email: "Email",
+    phoneInput: "Phone",
     subject: "Subject",
     message: "Message",
     submit: "Send Message",
-    unavailable: "Submission will be enabled in the contact and email phase.",
     cta: "Start the Conversation",
     method: "Working Method",
     focus: "Clarity",
@@ -80,12 +87,16 @@ const labels = {
     discuss: "Discuss Service",
     servicesIntro: "Every service brings vision closer to execution, clarifies roles, and builds measurable impact.",
     noServices: "Published services will appear here from the dashboard.",
-    contactPhase: "The contact form is currently presented as UI only; sending, storage, and email will be enabled in Phase 8.",
+    sent: "Your message has been received. We will review it in the admin panel and follow up soon.",
+    error: "The message could not be sent. Check the required fields and email format, then try again.",
+    contactNote: "Messages are now stored in the admin dashboard. Email notifications are deferred to the next phase.",
     location: "Riyadh, Saudi Arabia",
     phone: "Phone",
     address: "Location",
-    readiness: "Contact Readiness",
-    readinessBody: "The contact experience can be prepared visually now while actual processing remains scoped to the email and messages phase.",
+    readiness: "Ready to Listen",
+    readinessBody: "Tell us about the challenge or initiative you are shaping, and we will review the details with a clear next step.",
+    hiddenWebsite: "Website",
+    required: "Name, email, subject, and message are required.",
   },
 };
 
@@ -135,7 +146,6 @@ function AboutNarrative({
 }) {
   const text = labels[locale];
   const highlights = [text.focus, text.alignment, text.impact];
-  const bars = ["h-[70%]", "h-[44%]", "h-[86%]", "h-[58%]", "h-[96%]", "h-[66%]", "h-[78%]"];
   const resolvedIntro =
     intro ??
     (locale === "ar"
@@ -173,12 +183,10 @@ function AboutNarrative({
             <p className="mt-5 text-base leading-8 text-white/75">{resolvedIntro}</p>
           </div>
 
-          <div className="mt-10">
-            <div className="mt-6 border-t border-white/15 pt-5 text-sm leading-7 text-white/65">
-              {locale === "ar"
-                ? "من الفكرة إلى نموذج عمل قابل للتنفيذ والمتابعة."
-                : "From idea to an operating model that can be executed and measured."}
-            </div>
+          <div className="mt-10 border-t border-white/15 pt-5 text-sm leading-7 text-white/65">
+            {locale === "ar"
+              ? "من الفكرة إلى نموذج عمل قابل للتنفيذ والمتابعة."
+              : "From idea to an operating model that can be executed and measured."}
           </div>
         </div>
       </div>
@@ -250,8 +258,22 @@ function ServicesShowcase({
   );
 }
 
-function ContactPreview({ locale, intro }: { locale: Locale; intro?: string }) {
+function ContactPreview({
+  locale,
+  intro,
+  contactState,
+}: {
+  locale: Locale;
+  intro?: string;
+  contactState?: "sent" | "error";
+}) {
   const text = labels[locale];
+  const contactItems: Array<{ label: string; value: string; dir?: "ltr" | "rtl" }> = [
+    { label: text.email, value: "hello@orchestrate.local", dir: "ltr" },
+    { label: text.phone, value: "+966 00 000 0000", dir: "ltr" },
+    { label: text.address, value: text.location },
+  ];
+  const mapUrl = "https://www.google.com/maps?q=Riyadh%2C%20Saudi%20Arabia&output=embed";
 
   return (
     <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
@@ -262,51 +284,37 @@ function ContactPreview({ locale, intro }: { locale: Locale; intro?: string }) {
           <p className="mt-5 text-sm leading-7 text-white/70">{intro ?? text.readinessBody}</p>
         </div>
         <div className="grid border-t border-white/10">
-          {[
-            { label: text.email, value: "hello@orchestrate.local", dir: "ltr" },
-            { label: text.phone, value: "+966 00 000 0000", dir: "ltr" },
-            { label: text.address, value: text.location },
-          ].map((item) => (
+          {contactItems.map((item) => (
             <div className="border-b border-white/10 px-6 py-5 last:border-b-0 sm:px-8" key={item.label}>
               <p className="text-xs font-semibold text-turquoise">{item.label}</p>
-              <p className="mt-2 text-sm font-semibold text-white" dir={item.dir}>
+              <p
+                className={`mt-2 text-sm font-semibold text-white ${item.dir === "ltr" && locale === "ar" ? "text-right" : ""}`}
+                dir={item.dir}
+              >
                 {item.value}
               </p>
             </div>
           ))}
+          <div className="px-6 py-5 sm:px-8">
+            <div className="overflow-hidden rounded-md border border-white/10 bg-white/5">
+              <iframe
+                className="h-64 w-full border-0"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                src={mapUrl}
+                title={text.location}
+              />
+            </div>
+          </div>
         </div>
       </aside>
 
-      <form className="rounded-lg border border-petrol/10 bg-white p-6 shadow-[0_18px_55px_rgba(15,61,68,0.07)] sm:p-8">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="text-sm font-semibold text-orange">{text.contactForm}</p>
-            <h2 className="mt-3 text-2xl font-semibold text-petrol">{text.cta}</h2>
-          </div>
-          <span className="rounded-full bg-orange/10 px-3 py-1 text-xs font-semibold text-orange">Phase 8</span>
-        </div>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2">
-          {[text.name, text.organization, text.email, text.subject].map((item) => (
-            <label className="grid gap-2 text-sm font-semibold text-petrol" key={item}>
-              {item}
-              <input className="min-h-11 rounded-md border border-petrol/15 bg-soft px-3 outline-none focus:border-orange" disabled />
-            </label>
-          ))}
-          <label className="grid gap-2 text-sm font-semibold text-petrol sm:col-span-2">
-            {text.message}
-            <textarea className="min-h-36 rounded-md border border-petrol/15 bg-soft px-3 py-3 outline-none focus:border-orange" disabled />
-          </label>
-        </div>
-        <button className="mt-6 min-h-11 rounded-md bg-orange px-5 text-sm font-semibold text-white opacity-75" disabled type="button">
-          {text.submit}
-        </button>
-        <p className="mt-4 rounded-md border border-petrol/10 bg-soft px-4 py-3 text-xs leading-6 text-petrol/60">{text.contactPhase}</p>
-      </form>
+      <ContactForm action={submitContactMessageAction} contactState={contactState} labels={text} locale={locale} />
     </div>
   );
 }
 
-export async function StandardPage({ pageKey, locale }: StandardPageProps) {
+export async function StandardPage({ pageKey, locale, contactState }: StandardPageProps) {
   const [page, services, team] = await Promise.all([
     getPageContent(pageKey, locale),
     pageKey === "services" ? getPublishedServices(locale) : Promise.resolve([]),
@@ -338,7 +346,7 @@ export async function StandardPage({ pageKey, locale }: StandardPageProps) {
 
           {pageKey === "services" ? <ServicesShowcase intro={page?.translation.body} locale={locale} services={services} /> : null}
 
-          {pageKey === "contact" ? <ContactPreview intro={sections.formIntro} locale={locale} /> : null}
+          {pageKey === "contact" ? <ContactPreview contactState={contactState} intro={sections.formIntro} locale={locale} /> : null}
 
           {pageKey !== "about" && pageKey !== "services" && pageKey !== "contact" && page?.translation.body ? (
             <div className="max-w-4xl rounded-lg border border-petrol/10 bg-white p-6 shadow-[0_18px_55px_rgba(15,61,68,0.06)]">

@@ -156,7 +156,7 @@ export async function HomePage({ locale }: { locale: Locale }) {
           <div className="mt-14 rounded-lg border border-white/10 bg-white px-6 py-8 text-petrol shadow-[0_24px_80px_rgba(0,0,0,0.18)] sm:px-8 sm:py-10">
             <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
             <p className="text-3xl font-semibold leading-tight text-petrol sm:text-4xl">{sections.philosophy?.title}</p>
-            <p className="text-base leading-8 text-petrol/70 sm:text-lg">{sections.philosophy?.body}</p>
+            <p className="text-base leading-8 text-petrol/70 sm:text-l">{sections.philosophy?.body}</p>
             </div>
           </div>
         </Container>
