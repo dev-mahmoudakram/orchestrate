@@ -37,25 +37,18 @@ export function PublicHeader({ currentLocale, currentPathname, labels, siteName 
   const ctaLabel = labels["nav.cta"] ?? labels["button.contact"] ?? "Start";
 
   return (
-    <header className="sticky top-0 z-40 border-b border-petrol/10 bg-white/90 backdrop-blur">
-      <Container className="relative flex min-h-20 items-center justify-between gap-5">
-        <Link className="flex items-center text-petrol" href={localizePath("/", currentLocale)}>
-          <Image
-            alt={siteName}
-            className="h-12 w-auto"
-            height={95}
-            priority
-            src="/assets/logo.png"
-            width={160}
-          />
+    <header className="sticky top-0 z-40 border-b border-petrol/10 bg-white/92 backdrop-blur-md">
+      <Container className="relative flex min-h-18 items-center justify-between gap-5 py-3">
+        <Link className="flex shrink-0 items-center text-petrol" href={localizePath("/", currentLocale)}>
+          <Image alt={siteName} className="h-14 w-auto" height={95} priority src="/assets/logo.png" width={160} />
         </Link>
 
-        <nav aria-label="Primary navigation" className="hidden items-center gap-1 lg:flex">
+        <nav aria-label="Primary navigation" className="hidden items-center rounded-full border border-petrol/10 bg-soft px-2 py-1 lg:flex">
           {localizedNavItems.map((item) => (
             <Link
               aria-current={item.isActive ? "page" : undefined}
-              className={`rounded-md px-4 py-2 text-sm font-semibold transition ${
-                item.isActive ? "bg-orange/10 text-orange" : "text-petrol/70 hover:bg-petrol/5 hover:text-petrol"
+              className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
+                item.isActive ? "bg-white text-orange shadow-sm" : "text-petrol/70 hover:bg-white hover:text-petrol"
               }`}
               href={item.href}
               key={item.href}
@@ -72,7 +65,7 @@ export function PublicHeader({ currentLocale, currentPathname, labels, siteName 
             labels={{ ar: labels["nav.language_ar"], en: labels["nav.language_en"] }}
           />
           <Link
-            className="inline-flex min-h-10 items-center rounded-md bg-orange px-4 text-sm font-semibold text-white transition hover:bg-[#d76719]"
+            className="inline-flex min-h-10 items-center rounded-md bg-orange px-4 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-[#d76719]"
             href={ctaHref}
           >
             {ctaLabel}

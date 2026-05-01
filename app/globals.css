@@ -64,6 +64,62 @@
   font-weight: 900;
 }
 
+@font-face {
+  font-family: "Manrope";
+  src: url("/font/en/Manrope-ExtraLight.woff2") format("woff2");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 200;
+}
+
+@font-face {
+  font-family: "Manrope";
+  src: url("/font/en/Manrope-Light.woff2") format("woff2");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Manrope";
+  src: url("/font/en/Manrope-Regular.woff2") format("woff2");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Manrope";
+  src: url("/font/en/Manrope-Medium.woff2") format("woff2");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Manrope";
+  src: url("/font/en/Manrope-SemiBold.woff2") format("woff2");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: "Manrope";
+  src: url("/font/en/Manrope-Bold.woff2") format("woff2");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Manrope";
+  src: url("/font/en/Manrope-ExtraBold.woff2") format("woff2");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 800;
+}
+
 @theme {
   --color-petrol: #0f3d44;
   --color-orange: #e87722;
@@ -71,7 +127,7 @@
   --color-soft: #f7f7f6;
   --color-ink: #142326;
   --font-arabic: "Cairo", "IBM Plex Sans Arabic", "Noto Sans Arabic", Arial, sans-serif;
-  --font-latin: "Inter", "Manrope", Arial, sans-serif;
+  --font-latin: "Manrope", "Inter", Arial, sans-serif;
 }
 
 :root {
@@ -118,21 +174,4 @@ select {
     linear-gradient(rgba(15, 61, 68, 0.08) 1px, transparent 1px),
     linear-gradient(90deg, rgba(15, 61, 68, 0.08) 1px, transparent 1px);
   background-size: 48px 48px;
-}
-
-.admin-route-progress-bar {
-  animation: admin-route-progress 1.2s ease-in-out infinite;
-  transform-origin: left center;
-}
-
-@keyframes admin-route-progress {
-  0% {
-    transform: translateX(-100%) scaleX(0.35);
-  }
-  45% {
-    transform: translateX(10%) scaleX(0.75);
-  }
-  100% {
-    transform: translateX(130%) scaleX(0.35);
-  }
 }

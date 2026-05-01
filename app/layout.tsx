@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
+import NextTopLoader from "nextjs-toploader";
 
 import "@/app/globals.css";
 import { HtmlLocaleSync } from "@/components/public/html-locale-sync";
@@ -30,6 +31,14 @@ export default async function RootLayout({
   return (
     <html lang={locale} dir={direction} suppressHydrationWarning>
       <body>
+        <NextTopLoader
+          color="#E87722"
+          crawl
+          height={3}
+          shadow="0 0 12px rgba(232,119,34,0.55), 0 0 6px rgba(232,119,34,0.35)"
+          showSpinner={false}
+          zIndex={9999}
+        />
         <HtmlLocaleSync />
         {children}
       </body>
