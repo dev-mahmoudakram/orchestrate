@@ -3,6 +3,7 @@ import {
   deletePartnerAction,
   updatePartnerAction,
 } from "@/app/admin/(protected)/cms-actions";
+import { MediaField } from "@/components/admin/media-field";
 import {
   AdminPageHeading,
   CheckboxField,
@@ -59,11 +60,17 @@ function PartnerTranslationFields({
 
 export default async function AdminPartnersPage({ searchParams }: AdminPartnersPageProps) {
   const { error, saved } = await searchParams;
-  const partners = await prisma.partner.findMany({
-    where: { deletedAt: null },
-    include: { translations: true },
-    orderBy: [{ sortOrder: "asc" }, { updatedAt: "desc" }],
-  });
+  const [partners, media] = await Promise.all([
+    prisma.partner.findMany({
+      where: { deletedAt: null },
+      include: { logoMedia: true, translations: true },
+      orderBy: [{ sortOrder: "asc" }, { updatedAt: "desc" }],
+    }),
+    prisma.media.findMany({
+      orderBy: { createdAt: "desc" },
+      select: { id: true, url: true, filename: true, altAr: true, altEn: true },
+    }),
+  ]);
 
   return (
     <div className="space-y-8">
@@ -86,6 +93,7 @@ export default async function AdminPartnersPage({ searchParams }: AdminPartnersP
             <TextField defaultValue={0} label="ترتيب العرض" name="sortOrder" type="number" />
             <CheckboxField label="منشور" name="isPublished" />
           </div>
+          <MediaField label="شعار الشريك" media={media} name="logoMediaId" />
           <LocaleTabs
             ar={<PartnerTranslationFields dir="rtl" prefix="ar" requiredName />}
             en={<PartnerTranslationFields dir="ltr" prefix="en" />}
@@ -123,6 +131,12 @@ export default async function AdminPartnersPage({ searchParams }: AdminPartnersP
                       <TextField defaultValue={partner.sortOrder} label="ترتيب العرض" name="sortOrder" type="number" />
                       <CheckboxField defaultChecked={partner.isPublished} label="منشور" name="isPublished" />
                     </div>
+                    <MediaField
+                      label="شعار الشريك"
+                      media={media}
+                      name="logoMediaId"
+                      selectedId={partner.logoMediaId}
+                    />
                     <LocaleTabs
                       ar={
                         <PartnerTranslationFields

@@ -3,6 +3,7 @@ import {
   deleteServiceAction,
   updateServiceAction,
 } from "@/app/admin/(protected)/cms-actions";
+import { MediaField } from "@/components/admin/media-field";
 import {
   AdminPageHeading,
   CheckboxField,
@@ -74,11 +75,17 @@ function ServiceTranslationFields({
 
 export default async function AdminServicesPage({ searchParams }: AdminServicesPageProps) {
   const { error, saved } = await searchParams;
-  const services = await prisma.service.findMany({
-    where: { deletedAt: null },
-    include: { translations: true },
-    orderBy: [{ sortOrder: "asc" }, { updatedAt: "desc" }],
-  });
+  const [services, media] = await Promise.all([
+    prisma.service.findMany({
+      where: { deletedAt: null },
+      include: { featuredImage: true, translations: true },
+      orderBy: [{ sortOrder: "asc" }, { updatedAt: "desc" }],
+    }),
+    prisma.media.findMany({
+      orderBy: { createdAt: "desc" },
+      select: { id: true, url: true, filename: true, altAr: true, altEn: true },
+    }),
+  ]);
 
   return (
     <div className="space-y-8">
@@ -101,6 +108,7 @@ export default async function AdminServicesPage({ searchParams }: AdminServicesP
             <TextField defaultValue={0} label="ترتيب العرض" name="sortOrder" type="number" />
             <CheckboxField label="منشور" name="isPublished" />
           </div>
+          <MediaField label="الصورة الرئيسية" media={media} name="featuredImageId" />
           <LocaleTabs
             ar={<ServiceTranslationFields dir="rtl" prefix="ar" requiredTitle />}
             en={<ServiceTranslationFields dir="ltr" prefix="en" />}
@@ -138,6 +146,12 @@ export default async function AdminServicesPage({ searchParams }: AdminServicesP
                       <TextField defaultValue={service.sortOrder} label="ترتيب العرض" name="sortOrder" type="number" />
                       <CheckboxField defaultChecked={service.isPublished} label="منشور" name="isPublished" />
                     </div>
+                    <MediaField
+                      label="الصورة الرئيسية"
+                      media={media}
+                      name="featuredImageId"
+                      selectedId={service.featuredImageId}
+                    />
                     <LocaleTabs
                       ar={
                         <ServiceTranslationFields

@@ -1,5 +1,3 @@
-import type { ReactNode } from "react";
-
 import { Badge } from "@/components/ui/badge";
 
 type FieldProps = {
@@ -14,10 +12,6 @@ type FieldProps = {
 
 type TextAreaProps = FieldProps & {
   rows?: number;
-};
-
-type SelectProps = FieldProps & {
-  children: ReactNode;
 };
 
 type CheckboxProps = {
@@ -100,22 +94,6 @@ export function TextAreaField({ name, label, defaultValue, placeholder, required
         required={required}
         rows={rows}
       />
-    </label>
-  );
-}
-
-export function SelectField({ name, label, defaultValue, required, children }: SelectProps) {
-  return (
-    <label className="flex flex-col justify-between">
-      <span className="text-sm font-medium text-petrol">{label}</span>
-      <select
-        className="mt-2 min-h-11 w-full rounded-md border border-petrol/15 bg-white px-3 text-petrol outline-none focus:border-orange"
-        defaultValue={defaultValue ?? ""}
-        name={name}
-        required={required}
-      >
-        {children}
-      </select>
     </label>
   );
 }

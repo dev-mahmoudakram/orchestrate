@@ -139,6 +139,15 @@ export async function ProjectsPage({ locale, selectedSectorSlug }: { locale: Loc
                     {project.isFeatured ? <p className="rounded-full bg-orange/10 px-3 py-1 text-xs font-semibold text-orange">{text.featured}</p> : null}
                   </div>
                   <h3 className="mt-5 text-2xl font-semibold leading-tight text-petrol">{project.translation?.title}</h3>
+                  {project.featuredImage ? (
+                    <div className="mt-5 overflow-hidden rounded-md border border-petrol/10 bg-soft">
+                      <img
+                        alt={project.featuredImage.altAr || project.featuredImage.altEn || project.translation?.title || project.slug}
+                        className="h-52 w-full object-cover transition duration-300 hover:scale-[1.03]"
+                        src={project.featuredImage.url}
+                      />
+                    </div>
+                  ) : null}
                   <p className="mt-4 text-sm leading-7 text-petrol/65">{project.translation?.summary}</p>
                   {project.translation?.challenge ? (
                     <p className="mt-6 border-t border-petrol/10 pt-5 text-sm leading-7 text-petrol/65">{project.translation.challenge}</p>

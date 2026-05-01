@@ -222,6 +222,15 @@ function ServicesShowcase({
                 <p className="text-xs font-semibold uppercase text-orange">{service.icon ?? service.slug}</p>
                 <p className="text-sm font-semibold text-petrol/35">{String(index + 1).padStart(2, "0")}</p>
               </div>
+              {service.featuredImage ? (
+                <div className="mt-6 overflow-hidden rounded-md border border-petrol/10 bg-soft">
+                  <img
+                    alt={service.featuredImage.altAr || service.featuredImage.altEn || service.translation?.title || service.slug}
+                    className="h-44 w-full object-cover transition duration-300 group-hover:scale-[1.03]"
+                    src={service.featuredImage.url}
+                  />
+                </div>
+              ) : null}
               <h2 className="mt-8 text-2xl font-semibold leading-tight text-petrol">{service.translation?.title}</h2>
               <p className="mt-4 text-sm leading-7 text-petrol/65">{service.translation?.summary}</p>
               {service.translation?.body ? (
@@ -363,6 +372,15 @@ export async function StandardPage({ pageKey, locale }: StandardPageProps) {
                     className="rounded-lg border border-petrol/10 bg-white p-6 shadow-[0_18px_55px_rgba(15,61,68,0.06)] transition hover:-translate-y-1 hover:border-orange/30"
                     key={member.id}
                   >
+                    {member.imageMedia ? (
+                      <div className="mb-5 overflow-hidden rounded-md border border-petrol/10 bg-soft">
+                        <img
+                          alt={member.imageMedia.altAr || member.imageMedia.altEn || member.translation?.name || member.slug}
+                          className="h-56 w-full object-cover"
+                          src={member.imageMedia.url}
+                        />
+                      </div>
+                    ) : null}
                     <h2 className="text-2xl font-semibold text-petrol">{member.translation?.name}</h2>
                     <p className="mt-2 text-sm font-semibold text-orange">{member.translation?.position}</p>
                     <p className="mt-4 text-sm leading-7 text-petrol/65">{member.translation?.bio}</p>

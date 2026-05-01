@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 import { SidebarNav } from "@/components/admin/sidebar-nav";
-import { canManageUsers } from "@/lib/auth/permissions";
 import type { CurrentAdminUser } from "@/lib/auth/auth";
+import { canManageUsers } from "@/lib/auth/permissions";
 
 const navItems = [
   { href: "/admin/dashboard", label: "نظرة عامة" },
@@ -12,6 +12,7 @@ const navItems = [
   { href: "/admin/sectors", label: "القطاعات" },
   { href: "/admin/partners", label: "الشركاء" },
   { href: "/admin/team", label: "الفريق" },
+  { href: "/admin/media", label: "الوسائط" },
   { href: "/admin/messages", label: "الرسائل" },
   { href: "/admin/translations", label: "الترجمات" },
   { href: "/admin/settings", label: "الإعدادات", requiresSuperAdmin: true },

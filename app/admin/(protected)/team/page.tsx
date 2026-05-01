@@ -3,6 +3,7 @@ import {
   deleteTeamMemberAction,
   updateTeamMemberAction,
 } from "@/app/admin/(protected)/cms-actions";
+import { MediaField } from "@/components/admin/media-field";
 import {
   AdminPageHeading,
   CheckboxField,
@@ -64,11 +65,17 @@ function TeamTranslationFields({
 
 export default async function AdminTeamPage({ searchParams }: AdminTeamPageProps) {
   const { error, saved } = await searchParams;
-  const teamMembers = await prisma.teamMember.findMany({
-    where: { deletedAt: null },
-    include: { translations: true },
-    orderBy: [{ sortOrder: "asc" }, { updatedAt: "desc" }],
-  });
+  const [teamMembers, media] = await Promise.all([
+    prisma.teamMember.findMany({
+      where: { deletedAt: null },
+      include: { imageMedia: true, translations: true },
+      orderBy: [{ sortOrder: "asc" }, { updatedAt: "desc" }],
+    }),
+    prisma.media.findMany({
+      orderBy: { createdAt: "desc" },
+      select: { id: true, url: true, filename: true, altAr: true, altEn: true },
+    }),
+  ]);
 
   return (
     <div className="space-y-8">
@@ -92,6 +99,7 @@ export default async function AdminTeamPage({ searchParams }: AdminTeamPageProps
             <TextField defaultValue={0} label="ترتيب العرض" name="sortOrder" type="number" />
             <CheckboxField label="منشور" name="isPublished" />
           </div>
+          <MediaField label="الصورة الشخصية" media={media} name="imageMediaId" />
           <LocaleTabs
             ar={<TeamTranslationFields dir="rtl" prefix="ar" requiredName />}
             en={<TeamTranslationFields dir="ltr" prefix="en" />}
@@ -130,6 +138,12 @@ export default async function AdminTeamPage({ searchParams }: AdminTeamPageProps
                       <TextField defaultValue={teamMember.sortOrder} label="ترتيب العرض" name="sortOrder" type="number" />
                       <CheckboxField defaultChecked={teamMember.isPublished} label="منشور" name="isPublished" />
                     </div>
+                    <MediaField
+                      label="الصورة الشخصية"
+                      media={media}
+                      name="imageMediaId"
+                      selectedId={teamMember.imageMediaId}
+                    />
                     <LocaleTabs
                       ar={
                         <TeamTranslationFields

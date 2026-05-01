@@ -64,6 +64,7 @@ export async function getPublishedServices(locale: Locale) {
       isPublished: true,
     },
     include: {
+      featuredImage: true,
       translations: true,
     },
     orderBy: [{ sortOrder: "asc" }, { updatedAt: "desc" }],
@@ -80,6 +81,7 @@ export async function getFeaturedProjects(locale: Locale) {
       isPublished: true,
     },
     include: {
+      featuredImage: true,
       sector: {
         include: {
           translations: true,
@@ -113,6 +115,7 @@ export async function getPublishedProjects(locale: Locale, sectorSlug?: string) 
         : {}),
     },
     include: {
+      featuredImage: true,
       sector: {
         include: {
           translations: true,
@@ -137,6 +140,7 @@ export async function getPublishedPartners(locale: Locale) {
       isPublished: true,
     },
     include: {
+      logoMedia: true,
       translations: true,
     },
     orderBy: [{ sortOrder: "asc" }, { updatedAt: "desc" }],
@@ -152,6 +156,7 @@ export async function getPublishedTeam(locale: Locale) {
       isPublished: true,
     },
     include: {
+      imageMedia: true,
       translations: true,
     },
     orderBy: [{ sortOrder: "asc" }, { updatedAt: "desc" }],

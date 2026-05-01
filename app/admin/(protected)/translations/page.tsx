@@ -1,4 +1,5 @@
 import { createTranslationKeyAction, updateTranslationKeyAction } from "@/app/admin/(protected)/translations/actions";
+import { ReactSelectField } from "@/components/admin/react-select-field";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -28,6 +29,7 @@ export default async function AdminTranslationsPage({ searchParams }: AdminTrans
   const search = q?.trim() ?? "";
   const selectedGroup = group?.trim() ?? "";
   const groups = await getTranslationGroups();
+  const groupOptions = groups.map((item) => ({ label: item, value: item }));
 
   const translationKeys = await prisma.translationKey.findMany({
     where: {
@@ -65,19 +67,15 @@ export default async function AdminTranslationsPage({ searchParams }: AdminTrans
             placeholder="ابحث في المفاتيح أو النصوص"
             type="search"
           />
-          <select
-            aria-label="تصفية مفاتيح الترجمة حسب المجموعة"
-            className="min-h-11 rounded-md border border-petrol/15 bg-white px-3 text-sm text-petrol outline-none focus:border-orange"
-            defaultValue={selectedGroup}
-            name="group"
-          >
-            <option value="">كل المجموعات</option>
-            {groups.map((item) => (
-              <option key={item} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
+          <div className="min-w-56">
+            <ReactSelectField
+              defaultValue={selectedGroup}
+              emptyLabel="كل المجموعات"
+              name="group"
+              options={groupOptions}
+              placeholder="اختر المجموعة"
+            />
+          </div>
           <button
             className="inline-flex min-h-11 items-center justify-center rounded-md bg-petrol px-5 text-sm font-semibold text-white transition hover:bg-[#123238]"
             type="submit"

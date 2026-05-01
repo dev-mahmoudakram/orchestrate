@@ -20,6 +20,10 @@ function optionalText(value: FormDataEntryValue | null) {
   return cleaned.length > 0 ? cleaned : null;
 }
 
+function optionalId(value: FormDataEntryValue | null) {
+  return optionalText(value);
+}
+
 function sortOrder(value: FormDataEntryValue | null) {
   const parsed = Number.parseInt(String(value ?? "0"), 10);
   return Number.isFinite(parsed) ? parsed : 0;
@@ -273,6 +277,7 @@ export async function createServiceAction(formData: FormData) {
       data: {
         slug,
         icon: optionalText(formData.get("icon")),
+        featuredImageId: optionalId(formData.get("featuredImageId")),
         isPublished: checked(formData, "isPublished"),
         sortOrder: sortOrder(formData.get("sortOrder")),
         translations: {
@@ -309,6 +314,7 @@ export async function updateServiceAction(formData: FormData) {
         data: {
           slug,
           icon: optionalText(formData.get("icon")),
+          featuredImageId: optionalId(formData.get("featuredImageId")),
           isPublished: checked(formData, "isPublished"),
           sortOrder: sortOrder(formData.get("sortOrder")),
         },
@@ -448,6 +454,7 @@ export async function createProjectAction(formData: FormData) {
       data: {
         slug,
         sectorId,
+        featuredImageId: optionalId(formData.get("featuredImageId")),
         isFeatured: checked(formData, "isFeatured"),
         isPublished: checked(formData, "isPublished"),
         sortOrder: sortOrder(formData.get("sortOrder")),
@@ -486,6 +493,7 @@ export async function updateProjectAction(formData: FormData) {
         data: {
           slug,
           sectorId,
+          featuredImageId: optionalId(formData.get("featuredImageId")),
           isFeatured: checked(formData, "isFeatured"),
           isPublished: checked(formData, "isPublished"),
           sortOrder: sortOrder(formData.get("sortOrder")),
@@ -538,6 +546,7 @@ export async function createPartnerAction(formData: FormData) {
       data: {
         slug,
         websiteUrl: optionalText(formData.get("websiteUrl")),
+        logoMediaId: optionalId(formData.get("logoMediaId")),
         isPublished: checked(formData, "isPublished"),
         sortOrder: sortOrder(formData.get("sortOrder")),
         translations: {
@@ -574,6 +583,7 @@ export async function updatePartnerAction(formData: FormData) {
         data: {
           slug,
           websiteUrl: optionalText(formData.get("websiteUrl")),
+          logoMediaId: optionalId(formData.get("logoMediaId")),
           isPublished: checked(formData, "isPublished"),
           sortOrder: sortOrder(formData.get("sortOrder")),
         },
@@ -626,6 +636,7 @@ export async function createTeamMemberAction(formData: FormData) {
         slug,
         email: optionalText(formData.get("email")),
         linkedInUrl: optionalText(formData.get("linkedInUrl")),
+        imageMediaId: optionalId(formData.get("imageMediaId")),
         isPublished: checked(formData, "isPublished"),
         sortOrder: sortOrder(formData.get("sortOrder")),
         translations: {
@@ -663,6 +674,7 @@ export async function updateTeamMemberAction(formData: FormData) {
           slug,
           email: optionalText(formData.get("email")),
           linkedInUrl: optionalText(formData.get("linkedInUrl")),
+          imageMediaId: optionalId(formData.get("imageMediaId")),
           isPublished: checked(formData, "isPublished"),
           sortOrder: sortOrder(formData.get("sortOrder")),
         },

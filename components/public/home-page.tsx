@@ -214,6 +214,15 @@ export async function HomePage({ locale }: { locale: Locale }) {
                     {(service.icon ?? service.slug).slice(0, 2).toUpperCase()}
                   </span>
                   <div>
+                    {service.featuredImage ? (
+                      <div className="mb-4 overflow-hidden rounded-md border border-petrol/10 bg-white">
+                        <img
+                          alt={service.featuredImage.altAr || service.featuredImage.altEn || service.translation?.title || service.slug}
+                          className="h-36 w-full object-cover"
+                          src={service.featuredImage.url}
+                        />
+                      </div>
+                    ) : null}
                     <h3 className="text-xl font-semibold text-petrol">{service.translation?.title}</h3>
                     <p className="mt-3 text-sm leading-7 text-petrol/65">{service.translation?.summary}</p>
                   </div>
@@ -256,6 +265,15 @@ export async function HomePage({ locale }: { locale: Locale }) {
             {projects.map((project) => (
               <article className="flex min-h-64 flex-col rounded-lg border border-white/10 bg-white/6 p-6 transition hover:-translate-y-1 hover:border-orange/40" key={project.id}>
                 <p className="text-xs font-semibold text-turquoise">{project.sectorTranslation?.title}</p>
+                {project.featuredImage ? (
+                  <div className="mt-4 overflow-hidden rounded-md border border-white/10 bg-white/10">
+                    <img
+                      alt={project.featuredImage.altAr || project.featuredImage.altEn || project.translation?.title || project.slug}
+                      className="h-40 w-full object-cover"
+                      src={project.featuredImage.url}
+                    />
+                  </div>
+                ) : null}
                 <h3 className="mt-4 text-2xl font-semibold">{project.translation?.title}</h3>
                 <p className="mt-4 text-sm leading-7 text-white/70">{project.translation?.summary}</p>
                 <Link className="mt-auto inline-flex pt-6 text-sm font-semibold text-orange" href={`${localizePath("/projects", locale)}/${project.slug}`}>
@@ -286,6 +304,13 @@ export async function HomePage({ locale }: { locale: Locale }) {
                       key={partner.id}
                     >
                       <div>
+                        {partner.logoMedia ? (
+                          <img
+                            alt={partner.logoMedia.altAr || partner.logoMedia.altEn || partner.translation?.name || partner.slug}
+                            className="mb-3 max-h-10 max-w-36 object-contain"
+                            src={partner.logoMedia.url}
+                          />
+                        ) : null}
                         <p className="text-sm font-semibold text-petrol">{partner.translation?.name}</p>
                         {partner.translation?.description ? (
                           <p className="mt-1 text-xs leading-5 text-petrol/55">{partner.translation.description}</p>

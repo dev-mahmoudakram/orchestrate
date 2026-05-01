@@ -3,13 +3,14 @@ import {
   deleteProjectAction,
   updateProjectAction,
 } from "@/app/admin/(protected)/cms-actions";
+import { MediaField } from "@/components/admin/media-field";
+import { ReactSelectField } from "@/components/admin/react-select-field";
 import {
   AdminPageHeading,
   CheckboxField,
   CmsNotice,
   CmsStatus,
   FormActions,
-  SelectField,
   TextAreaField,
   TextField,
 } from "@/components/admin/cms-fields";
@@ -80,33 +81,13 @@ function ProjectTranslationFields({
   );
 }
 
-function SectorOptions({
-  sectors,
-}: {
-  sectors: Array<{ id: string; slug: string; translations: Array<{ locale: Locale; title: string }> }>;
-}) {
-  return (
-    <>
-      <option value="">بدون قطاع</option>
-      {sectors.map((sector) => {
-        const ar = translation(sector.translations, Locale.ar);
-
-        return (
-          <option key={sector.id} value={sector.id}>
-            {ar?.title || sector.slug}
-          </option>
-        );
-      })}
-    </>
-  );
-}
-
 export default async function AdminProjectsPage({ searchParams }: AdminProjectsPageProps) {
   const { error, saved } = await searchParams;
-  const [projects, sectors] = await Promise.all([
+  const [projects, sectors, media] = await Promise.all([
     prisma.project.findMany({
       where: { deletedAt: null },
       include: {
+        featuredImage: true,
         sector: { include: { translations: true } },
         translations: true,
       },
@@ -117,7 +98,19 @@ export default async function AdminProjectsPage({ searchParams }: AdminProjectsP
       include: { translations: true },
       orderBy: [{ sortOrder: "asc" }, { updatedAt: "desc" }],
     }),
+    prisma.media.findMany({
+      orderBy: { createdAt: "desc" },
+      select: { id: true, url: true, filename: true, altAr: true, altEn: true },
+    }),
   ]);
+  const sectorOptions = sectors.map((sector) => {
+    const ar = translation(sector.translations, Locale.ar);
+
+    return {
+      label: ar?.title || sector.slug,
+      value: sector.id,
+    };
+  });
 
   return (
     <div className="space-y-8">
@@ -136,13 +129,12 @@ export default async function AdminProjectsPage({ searchParams }: AdminProjectsP
         <form action={createProjectAction} className="mt-6 space-y-5">
           <div className="grid gap-4 lg:grid-cols-5">
             <TextField label="الرابط" name="slug" placeholder="national-platform" required />
-            <SelectField label="القطاع" name="sectorId">
-              <SectorOptions sectors={sectors} />
-            </SelectField>
+            <ReactSelectField emptyLabel="بدون قطاع" label="القطاع" name="sectorId" options={sectorOptions} />
             <TextField defaultValue={0} label="ترتيب العرض" name="sortOrder" type="number" />
             <CheckboxField label="مميز" name="isFeatured" />
             <CheckboxField label="منشور" name="isPublished" />
           </div>
+          <MediaField label="الصورة الرئيسية" media={media} name="featuredImageId" />
           <LocaleTabs
             ar={<ProjectTranslationFields dir="rtl" prefix="ar" requiredTitle />}
             en={<ProjectTranslationFields dir="ltr" prefix="en" />}
@@ -180,13 +172,23 @@ export default async function AdminProjectsPage({ searchParams }: AdminProjectsP
                     </div>
                     <div className="grid gap-4 lg:grid-cols-5">
                       <TextField defaultValue={project.slug} label="الرابط" name="slug" required />
-                      <SelectField defaultValue={project.sectorId} label="القطاع" name="sectorId">
-                        <SectorOptions sectors={sectors} />
-                      </SelectField>
+                      <ReactSelectField
+                        defaultValue={project.sectorId}
+                        emptyLabel="بدون قطاع"
+                        label="القطاع"
+                        name="sectorId"
+                        options={sectorOptions}
+                      />
                       <TextField defaultValue={project.sortOrder} label="ترتيب العرض" name="sortOrder" type="number" />
                       <CheckboxField defaultChecked={project.isFeatured} label="مميز" name="isFeatured" />
                       <CheckboxField defaultChecked={project.isPublished} label="منشور" name="isPublished" />
                     </div>
+                    <MediaField
+                      label="الصورة الرئيسية"
+                      media={media}
+                      name="featuredImageId"
+                      selectedId={project.featuredImageId}
+                    />
                     <LocaleTabs
                       ar={
                         <ProjectTranslationFields

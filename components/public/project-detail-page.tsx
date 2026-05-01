@@ -38,6 +38,7 @@ export async function ProjectDetailPage({ locale, slug }: { locale: Locale; slug
       slug,
     },
     include: {
+      featuredImage: true,
       sector: { include: { translations: true } },
       translations: true,
     },
@@ -70,6 +71,15 @@ export async function ProjectDetailPage({ locale, slug }: { locale: Locale; slug
           </div>
           <h1 className="mt-5 max-w-4xl text-4xl font-semibold leading-tight sm:text-6xl">{translation?.title ?? project.slug}</h1>
           <p className="mt-6 max-w-3xl text-base leading-8 text-white/70 sm:text-lg">{translation?.summary}</p>
+          {project.featuredImage ? (
+            <div className="mt-10 overflow-hidden rounded-lg border border-white/10 bg-white/10">
+              <img
+                alt={project.featuredImage.altAr || project.featuredImage.altEn || translation?.title || project.slug}
+                className="max-h-[28rem] w-full object-cover"
+                src={project.featuredImage.url}
+              />
+            </div>
+          ) : null}
         </Container>
       </section>
 

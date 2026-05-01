@@ -51,3 +51,7 @@ npm run db:seed
 ```
 
 The seed creates one `SUPER_ADMIN`, baseline page records, shared UI translation keys, starter sectors, starter services, one featured project, and core public site settings. Override the local seed admin credentials with `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` before seeding any shared environment.
+
+## Phase 7 uploads
+
+Set `UPLOAD_DIR` to a stable writable folder outside deploy-wiped application output. For local development the app falls back to `storage/uploads`, which is ignored by Git. In Plesk, prefer a path such as `/var/www/vhosts/<domain>/uploads/orchestrate` and make sure the Node.js app user can read and write that directory.
