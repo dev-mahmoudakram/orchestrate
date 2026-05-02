@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 
 import { brand } from "@/lib/constants/brand";
-import { Locale as PrismaLocale } from "@/lib/generated/prisma/client";
 import { localizePath } from "@/lib/i18n/routes";
-import { localized } from "@/lib/public/content";
 import { prisma } from "@/lib/prisma";
+import { Locale as PrismaLocale } from "@/lib/prisma/enums";
+import { localized } from "@/lib/public/content";
 import type { Locale } from "@/types/locale";
 
 const defaultSiteUrl = "http://localhost:3000";

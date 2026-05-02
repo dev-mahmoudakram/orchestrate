@@ -5,8 +5,9 @@ import { redirect } from "next/navigation";
 
 import { requireAdmin } from "@/lib/auth/auth";
 import { canManageContent } from "@/lib/auth/permissions";
-import { Locale, Prisma } from "@/lib/generated/prisma/client";
+import { Prisma } from "@/lib/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
+import { Locale } from "@/lib/prisma/enums";
 
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const keyPattern = /^[a-z0-9][a-z0-9._-]*$/;

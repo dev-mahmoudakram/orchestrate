@@ -1,5 +1,5 @@
-import { Locale as PrismaLocale } from "@/lib/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
+import { Locale as PrismaLocale } from "@/lib/prisma/enums";
 import type { Locale } from "@/types/locale";
 
 function prismaLocale(locale: Locale) {

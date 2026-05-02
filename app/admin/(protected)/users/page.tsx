@@ -10,8 +10,8 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { requireSuperAdmin } from "@/lib/auth/auth";
-import { UserRole } from "@/lib/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
+import { UserRole } from "@/lib/prisma/enums";
 
 type AdminUsersPageProps = {
   searchParams: Promise<{

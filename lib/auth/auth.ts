@@ -2,8 +2,8 @@ import { redirect } from "next/navigation";
 import { compare } from "bcryptjs";
 
 import { createAdminSession, readAdminSession, type AdminSession } from "@/lib/auth/session";
-import { UserRole } from "@/lib/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
+import { UserRole } from "@/lib/prisma/enums";
 
 export type CurrentAdminUser = AdminSession & {
   isActive: boolean;

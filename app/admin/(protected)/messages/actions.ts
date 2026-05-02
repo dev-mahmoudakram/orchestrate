@@ -5,8 +5,8 @@ import { redirect } from "next/navigation";
 
 import { requireAdmin } from "@/lib/auth/auth";
 import { canManageContent } from "@/lib/auth/permissions";
-import { MessageStatus } from "@/lib/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
+import { MessageStatus } from "@/lib/prisma/enums";
 
 type MessageFilter = "all" | "unread" | "read" | "archived";
 

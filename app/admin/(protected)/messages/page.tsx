@@ -9,8 +9,8 @@ import { AdminPageHeading, CmsNotice } from "@/components/admin/cms-fields";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
-import { MessageStatus } from "@/lib/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
+import { MessageStatus } from "@/lib/prisma/enums";
 
 type MessageFilter = "all" | "unread" | "read" | "archived";
 

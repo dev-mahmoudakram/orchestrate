@@ -5,8 +5,8 @@ import { redirect } from "next/navigation";
 import { hash } from "bcryptjs";
 
 import { requireSuperAdmin } from "@/lib/auth/auth";
-import { UserRole } from "@/lib/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
+import { UserRole } from "@/lib/prisma/enums";
 
 const path = "/admin/users";
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

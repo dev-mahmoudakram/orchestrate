@@ -16,8 +16,8 @@ import {
 import { LocaleTabs } from "@/components/admin/locale-tabs";
 import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
-import { Locale } from "@/lib/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
+import { Locale } from "@/lib/prisma/enums";
 
 type AdminServicesPageProps = {
   searchParams: Promise<{

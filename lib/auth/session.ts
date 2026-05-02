@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { jwtVerify, SignJWT } from "jose";
 
-import type { UserRole } from "@/lib/generated/prisma/client";
+import type { UserRole } from "@/lib/prisma/enums";
 
 export const adminSessionCookieName = "orchestrate_admin_session";
 
