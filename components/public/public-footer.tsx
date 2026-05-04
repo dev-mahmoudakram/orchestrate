@@ -28,7 +28,7 @@ export function PublicFooter({ currentLocale, labels, settings, siteName }: Publ
         <div className="grid gap-10 lg:grid-cols-[1.25fr_0.8fr_1fr]">
           <div>
             <div className="inline-flex rounded-lg bg-white px-4 py-3 shadow-[0_20px_70px_rgba(0,0,0,0.18)]">
-              <Image alt={siteName} className="h-20 w-auto" height={118} src="/assets/logo.png" width={200} />
+              <Image alt={siteName} className="h-20 w-auto" height={118} quality={58} sizes="200px" src="/assets/logo.png" width={200} />
             </div>
             <p className="mt-6 max-w-md text-sm leading-7 text-white/70">
               {labels["footer.company_description"] ?? "Strategic consultancy for systemic impact."}

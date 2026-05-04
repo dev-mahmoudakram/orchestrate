@@ -150,7 +150,16 @@ export async function HomePage({ locale }: { locale: Locale }) {
 
             <Reveal className="rounded-lg border border-white/10 bg-white/6 p-5 shadow-[0_30px_90px_rgba(0,0,0,0.24)]" delay={0.12}>
               <div className="rounded-md bg-white px-5 py-6">
-                <Image alt={text.eyebrow} className="mx-auto h-auto w-full max-w-sm" height={190} priority src="/assets/logo.png" width={380} />
+                <Image
+                  alt={text.eyebrow}
+                  className="mx-auto h-auto w-full max-w-sm"
+                  height={190}
+                  priority
+                  quality={58}
+                  sizes="(min-width: 640px) 380px, 90vw"
+                  src="/assets/logo.png"
+                  width={380}
+                />
               </div>
             </Reveal>
           </div>
@@ -168,10 +177,10 @@ export async function HomePage({ locale }: { locale: Locale }) {
         <Container>
           <Reveal className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <p className="text-sm font-semibold text-orange">{locale === "ar" ? "القطاعات" : "Sectors"}</p>
+              <p className="text-sm font-semibold text-[#a84b13]">{locale === "ar" ? "القطاعات" : "Sectors"}</p>
               <h2 className="mt-3 text-3xl font-semibold leading-tight text-petrol sm:text-4xl">{text.sectorsTitle}</h2>
             </div>
-            <p className="max-w-2xl text-sm leading-7 text-petrol/65">{text.sectorsBody}</p>
+            <p className="max-w-2xl text-sm leading-7 text-petrol/75">{text.sectorsBody}</p>
           </Reveal>
           <Stagger className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {sectors.length > 0 ? (
@@ -185,10 +194,10 @@ export async function HomePage({ locale }: { locale: Locale }) {
                       <span className="flex h-10 w-10 items-center justify-center rounded-md bg-orange text-white transition group-hover:bg-petrol">
                         <ContentIcon icon={sector.icon ?? sector.slug} />
                       </span>
-                      <span className="text-sm font-semibold text-petrol/35">{String(index + 1).padStart(2, "0")}</span>
+                      <span className="text-sm font-semibold text-petrol/55">{String(index + 1).padStart(2, "0")}</span>
                     </div>
                     <h3 className="mt-8 text-xl font-semibold text-petrol">{sector.translation?.title}</h3>
-                    <p className="mt-4 text-sm leading-7 text-petrol/65">{sector.translation?.summary}</p>
+                    <p className="mt-4 text-sm leading-7 text-petrol/75">{sector.translation?.summary}</p>
                   </div>
                   <span className="mt-auto block h-1 w-12 rounded-full bg-turquoise transition-all duration-300 ease-out group-hover:w-20 group-hover:bg-orange" />
                 </article>
@@ -206,9 +215,9 @@ export async function HomePage({ locale }: { locale: Locale }) {
           <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
             <div>
               <Reveal>
-              <p className="text-sm font-semibold text-orange">{locale === "ar" ? "الخدمات" : "Services"}</p>
+              <p className="text-sm font-semibold text-[#a84b13]">{locale === "ar" ? "الخدمات" : "Services"}</p>
               <h2 className="mt-3 text-3xl font-semibold leading-tight text-petrol sm:text-4xl">{text.servicesTitle}</h2>
-              <p className="mt-5 text-sm leading-7 text-petrol/65">{text.servicesBody}</p>
+              <p className="mt-5 text-sm leading-7 text-petrol/75">{text.servicesBody}</p>
               </Reveal>
             </div>
             <Stagger className="grid gap-4 xl:grid-cols-1">
@@ -231,7 +240,7 @@ export async function HomePage({ locale }: { locale: Locale }) {
                       </div>
                     ) : null}
                     <h3 className="text-xl font-semibold text-petrol">{service.translation?.title}</h3>
-                    <p className="mt-3 text-sm leading-7 text-petrol/65">{service.translation?.summary}</p>
+                    <p className="mt-3 text-sm leading-7 text-petrol/75">{service.translation?.summary}</p>
                   </div>
                 </article>
                 </StaggerItem>
@@ -244,17 +253,17 @@ export async function HomePage({ locale }: { locale: Locale }) {
       <section className="py-18 sm:py-20">
         <Container>
           <Reveal className="max-w-3xl">
-            <p className="text-sm font-semibold text-orange">{text.methodologyEyebrow}</p>
+            <p className="text-sm font-semibold text-[#a84b13]">{text.methodologyEyebrow}</p>
             <h2 className="mt-3 text-3xl font-semibold leading-tight text-petrol sm:text-4xl">{sections.methodology?.title}</h2>
-            <p className="mt-5 text-sm leading-7 text-petrol/65">{sections.methodology?.body}</p>
+            <p className="mt-5 text-sm leading-7 text-petrol/75">{sections.methodology?.body}</p>
           </Reveal>
-          <Stagger className="mt-10 grid gap-4 lg:grid-cols-5">
+          <Stagger className="mt-10 grid items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {(sections.methodology?.steps ?? []).map((step, index) => (
               <StaggerItem key={`${step.title}-${index}`}>
-              <article className="rounded-lg border border-petrol/10 bg-white p-5 shadow-[0_18px_55px_rgba(15,61,68,0.06)]">
-                <p className="text-3xl font-semibold text-orange">{String(index + 1).padStart(2, "0")}</p>
-                <h3 className="mt-8 text-lg font-semibold text-petrol">{step.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-petrol/65">{step.description}</p>
+              <article className="flex h-full min-h-60 flex-col rounded-lg border border-petrol/10 bg-white p-5 shadow-[0_18px_55px_rgba(15,61,68,0.06)]">
+                <p className="text-3xl font-semibold text-[#a84b13]">{String(index + 1).padStart(2, "0")}</p>
+                <h3 className="mt-12 text-lg font-semibold text-petrol">{step.title}</h3>
+                <p className="mt-3 min-h-14 text-sm leading-7 text-petrol/75">{step.description}</p>
               </article>
               </StaggerItem>
             ))}
@@ -328,7 +337,7 @@ export async function HomePage({ locale }: { locale: Locale }) {
                           <p className="mt-1 text-xs leading-5 text-petrol/55">{partner.translation.description}</p>
                         ) : null}
                       </div>
-                      <span className="text-sm font-semibold text-orange/70 transition group-hover:text-orange">
+                      <span className="text-sm font-semibold text-[#a84b13] transition group-hover:text-orange">
                         {String(index + 1).padStart(2, "0")}
                       </span>
                     </div>

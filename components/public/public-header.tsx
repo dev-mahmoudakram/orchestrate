@@ -40,7 +40,7 @@ export function PublicHeader({ currentLocale, currentPathname, labels, siteName 
     <header className="sticky top-0 z-40 border-b border-petrol/10 bg-white/92 backdrop-blur-md">
       <Container className="relative flex min-h-18 items-center justify-between gap-5 py-3">
         <Link className="flex shrink-0 items-center text-petrol" href={localizePath("/", currentLocale)}>
-          <Image alt={siteName} className="h-14 w-auto" height={95} priority src="/assets/logo.png" width={160} />
+          <Image alt={siteName} className="h-14 w-auto" height={95} priority quality={58} sizes="160px" src="/assets/logo.png" width={160} />
         </Link>
 
         <nav aria-label="Primary navigation" className="hidden items-center rounded-full border border-petrol/10 bg-soft px-2 py-1 lg:flex">
