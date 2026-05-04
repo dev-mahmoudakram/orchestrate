@@ -3,6 +3,7 @@ import Link from "next/link";
 import { submitContactMessageAction } from "@/app/(public)/contact/actions";
 import { ContactForm } from "@/components/public/contact-form";
 import { ContentIcon } from "@/components/public/content-icon";
+import { Reveal, Stagger, StaggerItem } from "@/components/public/reveal";
 import { Container } from "@/components/ui/container";
 import { localizePath } from "@/lib/i18n/routes";
 import { getPageContent, getPublishedServices, getPublishedTeam } from "@/lib/public/content";
@@ -122,11 +123,11 @@ function PageHero({
     <section className="relative overflow-hidden bg-petrol text-white">
       <div className="absolute inset-0 orchestration-grid opacity-25" aria-hidden="true" />
       <Container className="relative py-16 sm:py-20">
-        <div className="max-w-4xl">
+        <Reveal className="max-w-4xl">
           {eyebrow ? <p className="text-sm font-semibold text-turquoise">{eyebrow}</p> : null}
           <h1 className="mt-4 text-4xl font-semibold leading-tight sm:text-6xl">{title}</h1>
           {description ? <p className="mt-6 max-w-2xl text-base leading-8 text-white/70 sm:text-lg">{description}</p> : null}
-        </div>
+        </Reveal>
       </Container>
     </section>
   );
@@ -160,7 +161,7 @@ function AboutNarrative({
   const resolvedTitle = storyTitle ?? (locale === "ar" ? "قصة تناغم" : "The Orchestrate Story");
 
   return (
-    <div className="overflow-hidden rounded-lg border border-petrol/10 bg-white shadow-[0_24px_80px_rgba(15,61,68,0.08)]">
+    <Reveal className="overflow-hidden rounded-lg border border-petrol/10 bg-white shadow-[0_24px_80px_rgba(15,61,68,0.08)]">
       <div className="grid lg:grid-cols-[1.05fr_0.95fr]">
         <div className="p-6 sm:p-8 lg:p-10">
           <p className="text-sm font-semibold text-orange">{label}</p>
@@ -191,7 +192,7 @@ function AboutNarrative({
           </div>
         </div>
       </div>
-    </div>
+    </Reveal>
   );
 }
 
@@ -208,24 +209,24 @@ function ServicesShowcase({
 
   return (
     <div>
-      <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
+      <Reveal className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
         <div>
           <p className="text-sm font-semibold text-orange">{text.services}</p>
           <h2 className="mt-3 text-3xl font-semibold leading-tight text-petrol sm:text-4xl">{text.serviceDetails}</h2>
         </div>
         <p className="max-w-3xl text-sm leading-7 text-petrol/65">{intro ?? text.servicesIntro}</p>
-      </div>
+      </Reveal>
 
       {services.length === 0 ? (
         <div className="mt-8 rounded-lg border border-petrol/10 bg-white p-8 text-center shadow-[0_18px_55px_rgba(15,61,68,0.06)]">
           <p className="text-base font-semibold text-petrol">{text.noServices}</p>
         </div>
       ) : (
-        <div className="mt-10 grid gap-4 lg:grid-cols-3">
+        <Stagger className="mt-10 grid gap-4 lg:grid-cols-3">
           {services.map((service, index) => (
+            <StaggerItem key={service.id}>
             <article
               className="group flex min-h-80 flex-col rounded-lg border border-petrol/10 bg-white p-6 shadow-[0_18px_55px_rgba(15,61,68,0.06)] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-orange/35 hover:shadow-[0_24px_70px_rgba(15,61,68,0.12)]"
-              key={service.id}
             >
               <div className="flex items-center justify-between gap-4">
                 <span className="flex h-11 w-11 items-center justify-center rounded-md bg-orange text-white transition group-hover:bg-petrol">
@@ -254,8 +255,9 @@ function ServicesShowcase({
                 <span className="text-white">{text.discuss}</span>
               </Link>
             </article>
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       )}
     </div>
   );
@@ -279,7 +281,7 @@ function ContactPreview({
   const mapUrl = "https://www.google.com/maps?q=Riyadh%2C%20Saudi%20Arabia&output=embed";
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+    <Reveal className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
       <aside className="overflow-hidden rounded-lg bg-petrol text-white shadow-[0_24px_70px_rgba(15,61,68,0.16)]">
         <div className="p-6 sm:p-8">
           <p className="text-sm font-semibold text-turquoise">{text.contactInfo}</p>
@@ -313,7 +315,7 @@ function ContactPreview({
       </aside>
 
       <ContactForm action={submitContactMessageAction} contactState={contactState} labels={text} locale={locale} />
-    </div>
+    </Reveal>
   );
 }
 
@@ -352,36 +354,37 @@ export async function StandardPage({ pageKey, locale, contactState }: StandardPa
           {pageKey === "contact" ? <ContactPreview contactState={contactState} intro={sections.formIntro} locale={locale} /> : null}
 
           {pageKey !== "about" && pageKey !== "services" && pageKey !== "contact" && page?.translation.body ? (
-            <div className="max-w-4xl rounded-lg border border-petrol/10 bg-white p-6 shadow-[0_18px_55px_rgba(15,61,68,0.06)]">
+            <Reveal className="max-w-4xl rounded-lg border border-petrol/10 bg-white p-6 shadow-[0_18px_55px_rgba(15,61,68,0.06)]">
               <p className="text-base leading-8 text-petrol/70">{page.translation.body}</p>
-            </div>
+            </Reveal>
           ) : null}
 
           {sections.values?.items?.length ? (
-            <div className="mt-12">
+            <Reveal className="mt-12">
               <p className="text-sm font-semibold text-orange">{text.values}</p>
-              <div className="mt-5 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              <Stagger className="mt-5 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 {sections.values.items.map((item, index) => (
+                  <StaggerItem key={item}>
                   <article
                     className="min-h-40 rounded-lg border border-petrol/10 bg-white p-5 shadow-[0_18px_55px_rgba(15,61,68,0.06)] transition hover:-translate-y-1 hover:border-orange/30"
-                    key={item}
                   >
                     <p className="text-2xl font-semibold text-orange">{String(index + 1).padStart(2, "0")}</p>
                     <p className="mt-8 text-sm font-semibold leading-7 text-petrol">{item}</p>
                   </article>
+                  </StaggerItem>
                 ))}
-              </div>
-            </div>
+              </Stagger>
+            </Reveal>
           ) : null}
 
           {team.length > 0 ? (
-            <div className="mt-12">
+            <Reveal className="mt-12">
               <p className="text-sm font-semibold text-orange">{text.team}</p>
-              <div className="mt-5 grid gap-4 md:grid-cols-2">
+              <Stagger className="mt-5 grid gap-4 md:grid-cols-2">
                 {team.map((member) => (
+                  <StaggerItem key={member.id}>
                   <article
                     className="rounded-lg border border-petrol/10 bg-white p-6 shadow-[0_18px_55px_rgba(15,61,68,0.06)] transition hover:-translate-y-1 hover:border-orange/30"
-                    key={member.id}
                   >
                     {member.imageMedia ? (
                       <div className="mb-5 overflow-hidden rounded-md border border-petrol/10 bg-soft">
@@ -396,13 +399,14 @@ export async function StandardPage({ pageKey, locale, contactState }: StandardPa
                     <p className="mt-2 text-sm font-semibold text-orange">{member.translation?.position}</p>
                     <p className="mt-4 text-sm leading-7 text-petrol/65">{member.translation?.bio}</p>
                   </article>
+                  </StaggerItem>
                 ))}
-              </div>
-            </div>
+              </Stagger>
+            </Reveal>
           ) : null}
 
           {pageKey !== "contact" ? (
-            <div className="mt-12 rounded-lg bg-petrol p-8 text-white sm:p-10">
+            <Reveal className="mt-12 rounded-lg bg-petrol p-8 text-white sm:p-10">
               <h2 className="max-w-2xl text-2xl font-semibold leading-tight">
                 {locale === "ar" ? "هل تحتاج إلى تنسيق منظومي؟" : "Need systemic coordination?"}
               </h2>
@@ -412,7 +416,7 @@ export async function StandardPage({ pageKey, locale, contactState }: StandardPa
               >
                 {text.cta}
               </Link>
-            </div>
+            </Reveal>
           ) : null}
         </Container>
       </section>

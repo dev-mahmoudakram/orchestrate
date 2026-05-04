@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { Reveal, Stagger, StaggerItem } from "@/components/public/reveal";
 import { Container } from "@/components/ui/container";
 import { localizePath } from "@/lib/i18n/routes";
 import { getPageContent, getPublishedProjects, getPublishedSectors } from "@/lib/public/content";
@@ -64,19 +65,21 @@ export async function ProjectsPage({ locale, selectedSectorSlug }: { locale: Loc
       <section className="relative overflow-hidden bg-petrol text-white">
         <div className="absolute inset-0 orchestration-grid opacity-25" aria-hidden="true" />
         <Container className="relative py-16 sm:py-20">
-          <p className="text-sm font-semibold text-turquoise">{page?.translation.title}</p>
-          <h1 className="mt-4 max-w-4xl text-4xl font-semibold leading-tight sm:text-6xl">
-            {sections.hero?.headline ?? page?.translation.title ?? text.allProjects}
-          </h1>
-          <p className="mt-6 max-w-2xl text-base leading-8 text-white/70">
-            {sections.hero?.subheadline ?? page?.translation.summary}
-          </p>
+          <Reveal>
+            <p className="text-sm font-semibold text-turquoise">{page?.translation.title}</p>
+            <h1 className="mt-4 max-w-4xl text-4xl font-semibold leading-tight sm:text-6xl">
+              {sections.hero?.headline ?? page?.translation.title ?? text.allProjects}
+            </h1>
+            <p className="mt-6 max-w-2xl text-base leading-8 text-white/70">
+              {sections.hero?.subheadline ?? page?.translation.summary}
+            </p>
+          </Reveal>
         </Container>
       </section>
 
       <section className="py-14 sm:py-18">
         <Container>
-          <div className="rounded-lg border border-petrol/10 bg-white p-5 shadow-[0_18px_55px_rgba(15,61,68,0.06)]">
+          <Reveal className="rounded-lg border border-petrol/10 bg-white p-5 shadow-[0_18px_55px_rgba(15,61,68,0.06)]">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
               <p className="text-sm font-semibold text-orange">{text.sectors}</p>
               <div className="flex flex-wrap gap-2">
@@ -109,28 +112,28 @@ export async function ProjectsPage({ locale, selectedSectorSlug }: { locale: Loc
                 })}
               </div>
             </div>
-          </div>
+          </Reveal>
 
-          <div className="mt-10 flex items-end justify-between gap-4">
+          <Reveal className="mt-10 flex items-end justify-between gap-4">
             <h2 className="text-3xl font-semibold text-petrol">{text.allProjects}</h2>
             <span className="text-sm font-semibold text-petrol/45">
               {projects.length} {text.count}
             </span>
-          </div>
+          </Reveal>
 
           {projects.length === 0 ? (
-            <div className="mt-6 rounded-lg border border-petrol/10 bg-white p-8 text-center shadow-[0_18px_55px_rgba(15,61,68,0.06)]">
+            <Reveal className="mt-6 rounded-lg border border-petrol/10 bg-white p-8 text-center shadow-[0_18px_55px_rgba(15,61,68,0.06)]">
               <p className="text-base font-semibold text-petrol">{text.noProjects}</p>
               <Link className="mt-5 inline-flex min-h-11 min-w-32 items-center justify-center rounded-md bg-orange px-5 text-sm font-semibold" href={projectFilterPath(locale)}>
                 <span className="text-white">{text.reset}</span>
               </Link>
-            </div>
+            </Reveal>
           ) : (
-            <div className="mt-6 grid gap-4 lg:grid-cols-2">
+            <Stagger className="mt-6 grid gap-4 lg:grid-cols-2">
               {projects.map((project) => (
+                <StaggerItem key={project.id}>
                 <article
                   className="flex min-h-80 flex-col rounded-lg border border-petrol/10 bg-white p-6 shadow-[0_18px_55px_rgba(15,61,68,0.06)] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-orange/35 hover:shadow-[0_24px_70px_rgba(15,61,68,0.12)]"
-                  key={project.id}
                 >
                   <div className="flex flex-wrap items-center gap-2">
                     {project.sectorTranslation?.title ? (
@@ -159,8 +162,9 @@ export async function ProjectsPage({ locale, selectedSectorSlug }: { locale: Loc
                     <span className="text-white">{text.view}</span>
                   </Link>
                 </article>
+                </StaggerItem>
               ))}
-            </div>
+            </Stagger>
           )}
         </Container>
       </section>

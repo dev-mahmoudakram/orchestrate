@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { ContentIcon } from "@/components/public/content-icon";
+import { Reveal, Stagger, StaggerItem } from "@/components/public/reveal";
 import { Container } from "@/components/ui/container";
 import { localizePath } from "@/lib/i18n/routes";
 import {
@@ -114,7 +115,7 @@ export async function HomePage({ locale }: { locale: Locale }) {
         <div className="absolute inset-0 orchestration-grid opacity-45" aria-hidden="true" />
         <Container className="relative flex min-h-[calc(100svh-5rem)] flex-col justify-center py-8 sm:py-24 lg:py-10">
           <div className="grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-            <div>
+            <Reveal>
               <p className="inline-flex rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold text-turquoise">
                 {text.eyebrow}
               </p>
@@ -145,39 +146,39 @@ export async function HomePage({ locale }: { locale: Locale }) {
                   </div>
                 ))}
               </div>
-            </div>
+            </Reveal>
 
-            <div className="rounded-lg border border-white/10 bg-white/6 p-5 shadow-[0_30px_90px_rgba(0,0,0,0.24)]">
+            <Reveal className="rounded-lg border border-white/10 bg-white/6 p-5 shadow-[0_30px_90px_rgba(0,0,0,0.24)]" delay={0.12}>
               <div className="rounded-md bg-white px-5 py-6">
                 <Image alt={text.eyebrow} className="mx-auto h-auto w-full max-w-sm" height={190} priority src="/assets/logo.png" width={380} />
               </div>
-            </div>
+            </Reveal>
           </div>
 
-          <div className="mt-14 rounded-lg border border-white/10 bg-white px-6 py-8 text-petrol shadow-[0_24px_80px_rgba(0,0,0,0.18)] sm:px-8 sm:py-10">
+          <Reveal className="mt-14 rounded-lg border border-white/10 bg-white px-6 py-8 text-petrol shadow-[0_24px_80px_rgba(0,0,0,0.18)] sm:px-8 sm:py-10" delay={0.18}>
             <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
             <p className="text-3xl font-semibold leading-tight text-petrol sm:text-4xl">{sections.philosophy?.title}</p>
             <p className="text-base leading-8 text-petrol/70 sm:text-l">{sections.philosophy?.body}</p>
             </div>
-          </div>
+          </Reveal>
         </Container>
       </section>
 
       <section className="py-18 sm:py-20">
         <Container>
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <Reveal className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <p className="text-sm font-semibold text-orange">{locale === "ar" ? "القطاعات" : "Sectors"}</p>
               <h2 className="mt-3 text-3xl font-semibold leading-tight text-petrol sm:text-4xl">{text.sectorsTitle}</h2>
             </div>
             <p className="max-w-2xl text-sm leading-7 text-petrol/65">{text.sectorsBody}</p>
-          </div>
-          <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          </Reveal>
+          <Stagger className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {sectors.length > 0 ? (
               sectors.map((sector, index) => (
+                <StaggerItem key={sector.id}>
                 <article
                   className="group flex min-h-64 flex-col rounded-lg border border-petrol/10 bg-white p-6 shadow-[0_18px_55px_rgba(15,61,68,0.07)] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-orange/35 hover:shadow-[0_24px_70px_rgba(15,61,68,0.12)]"
-                  key={sector.id}
                 >
                   <div>
                     <div className="flex items-center justify-between">
@@ -191,11 +192,12 @@ export async function HomePage({ locale }: { locale: Locale }) {
                   </div>
                   <span className="mt-auto block h-1 w-12 rounded-full bg-turquoise transition-all duration-300 ease-out group-hover:w-20 group-hover:bg-orange" />
                 </article>
+                </StaggerItem>
               ))
             ) : (
               <p className="text-sm text-petrol/60">{text.noItems}</p>
             )}
-          </div>
+          </Stagger>
         </Container>
       </section>
 
@@ -203,15 +205,17 @@ export async function HomePage({ locale }: { locale: Locale }) {
         <Container>
           <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
             <div>
+              <Reveal>
               <p className="text-sm font-semibold text-orange">{locale === "ar" ? "الخدمات" : "Services"}</p>
               <h2 className="mt-3 text-3xl font-semibold leading-tight text-petrol sm:text-4xl">{text.servicesTitle}</h2>
               <p className="mt-5 text-sm leading-7 text-petrol/65">{text.servicesBody}</p>
+              </Reveal>
             </div>
-            <div className="grid gap-4 xl:grid-cols-1">
+            <Stagger className="grid gap-4 xl:grid-cols-1">
               {services.slice(0, 4).map((service) => (
+                <StaggerItem key={service.id}>
                 <article
                   className="group grid gap-4 rounded-lg border border-petrol/10 bg-soft p-5 transition hover:border-orange/35 hover:bg-white sm:grid-cols-[auto_1fr]"
-                  key={service.id}
                 >
                   <span className="flex h-12 w-12 items-center justify-center rounded-md bg-orange text-white transition group-hover:bg-petrol">
                     <ContentIcon icon={service.icon ?? service.slug} />
@@ -230,43 +234,47 @@ export async function HomePage({ locale }: { locale: Locale }) {
                     <p className="mt-3 text-sm leading-7 text-petrol/65">{service.translation?.summary}</p>
                   </div>
                 </article>
+                </StaggerItem>
               ))}
-            </div>
+            </Stagger>
           </div>
         </Container>
       </section>
 
       <section className="py-18 sm:py-20">
         <Container>
-          <div className="max-w-3xl">
+          <Reveal className="max-w-3xl">
             <p className="text-sm font-semibold text-orange">{text.methodologyEyebrow}</p>
             <h2 className="mt-3 text-3xl font-semibold leading-tight text-petrol sm:text-4xl">{sections.methodology?.title}</h2>
             <p className="mt-5 text-sm leading-7 text-petrol/65">{sections.methodology?.body}</p>
-          </div>
-          <div className="mt-10 grid gap-4 lg:grid-cols-5">
+          </Reveal>
+          <Stagger className="mt-10 grid gap-4 lg:grid-cols-5">
             {(sections.methodology?.steps ?? []).map((step, index) => (
-              <article className="rounded-lg border border-petrol/10 bg-white p-5 shadow-[0_18px_55px_rgba(15,61,68,0.06)]" key={`${step.title}-${index}`}>
+              <StaggerItem key={`${step.title}-${index}`}>
+              <article className="rounded-lg border border-petrol/10 bg-white p-5 shadow-[0_18px_55px_rgba(15,61,68,0.06)]">
                 <p className="text-3xl font-semibold text-orange">{String(index + 1).padStart(2, "0")}</p>
                 <h3 className="mt-8 text-lg font-semibold text-petrol">{step.title}</h3>
                 <p className="mt-3 text-sm leading-7 text-petrol/65">{step.description}</p>
               </article>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </Container>
       </section>
 
       <section className="bg-petrol py-18 text-white sm:py-20">
         <Container>
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <Reveal className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <p className="text-sm font-semibold text-turquoise">{locale === "ar" ? "دراسات حالة" : "Case Studies"}</p>
               <h2 className="mt-3 text-3xl font-semibold leading-tight sm:text-4xl">{text.projectsTitle}</h2>
             </div>
             <p className="max-w-2xl text-sm leading-7 text-white/65">{text.projectsBody}</p>
-          </div>
-          <div className="mt-10 grid gap-6 lg:grid-cols-3">
+          </Reveal>
+          <Stagger className="mt-10 grid gap-6 lg:grid-cols-3">
             {projects.map((project) => (
-              <article className="flex min-h-64 flex-col rounded-lg border border-white/10 bg-white/6 p-6 transition hover:-translate-y-1 hover:border-orange/40" key={project.id}>
+              <StaggerItem key={project.id}>
+              <article className="flex min-h-64 flex-col rounded-lg border border-white/10 bg-white/6 p-6 transition hover:-translate-y-1 hover:border-orange/40">
                 <p className="text-xs font-semibold text-turquoise">{project.sectorTranslation?.title}</p>
                 {project.featuredImage ? (
                   <div className="mt-4 overflow-hidden rounded-md border border-white/10 bg-white/10">
@@ -283,15 +291,16 @@ export async function HomePage({ locale }: { locale: Locale }) {
                   {text.viewCase}
                 </Link>
               </article>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </Container>
       </section>
 
       {partners.length > 0 ? (
         <section className="bg-white py-16 sm:py-20">
           <Container>
-            <div className="overflow-hidden rounded-lg border border-petrol/10 bg-soft shadow-[0_24px_70px_rgba(15,61,68,0.08)]">
+            <Reveal className="overflow-hidden rounded-lg border border-petrol/10 bg-soft shadow-[0_24px_70px_rgba(15,61,68,0.08)]">
               <div className="grid lg:grid-cols-[0.95fr_1.05fr]">
                 <div className="relative bg-petrol p-8 text-white sm:p-10">
                   <div className="absolute inset-y-8 inset-e-0 hidden w-px bg-white/15 lg:block" aria-hidden="true" />
@@ -326,14 +335,14 @@ export async function HomePage({ locale }: { locale: Locale }) {
                   ))}
                 </div>
               </div>
-            </div>
+            </Reveal>
           </Container>
         </section>
       ) : null}
 
       <section className="bg-soft py-18 sm:py-20">
         <Container>
-          <div className="rounded-lg bg-petrol p-8 text-white sm:p-12">
+          <Reveal className="rounded-lg bg-petrol p-8 text-white sm:p-12">
             <div className="max-w-3xl">
               <h2 className="text-3xl font-semibold leading-tight sm:text-4xl">{finalCta?.title || text.finalCtaTitle}</h2>
               <p className="mt-5 text-base leading-8 text-white/70">{finalCta?.body || text.finalCtaBody}</p>
@@ -344,7 +353,7 @@ export async function HomePage({ locale }: { locale: Locale }) {
                 {finalCta?.ctaLabel || text.finalCtaLabel}
               </Link>
             </div>
-          </div>
+          </Reveal>
         </Container>
       </section>
     </main>

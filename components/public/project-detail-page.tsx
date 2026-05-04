@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { Reveal, Stagger, StaggerItem } from "@/components/public/reveal";
 import { Container } from "@/components/ui/container";
 import { localizePath } from "@/lib/i18n/routes";
 import { localized } from "@/lib/public/content";
@@ -62,45 +63,48 @@ export async function ProjectDetailPage({ locale, slug }: { locale: Locale; slug
       <section className="relative overflow-hidden bg-petrol text-white">
         <div className="absolute inset-0 orchestration-grid opacity-25" aria-hidden="true" />
         <Container className="relative py-16 sm:py-20">
-          <Link className="text-sm font-semibold text-turquoise transition hover:text-white" href={localizePath("/projects", locale)}>
-            {text.back}
-          </Link>
-          <div className="mt-10 flex flex-wrap items-center gap-2">
-            <p className="rounded-full bg-turquoise/15 px-3 py-1 text-xs font-semibold text-turquoise">{sectorTranslation?.title ?? text.caseStudy}</p>
-            {project.isFeatured ? <p className="rounded-full bg-orange/15 px-3 py-1 text-xs font-semibold text-orange">{text.featured}</p> : null}
-          </div>
-          <h1 className="mt-5 max-w-4xl text-4xl font-semibold leading-tight sm:text-6xl">{translation?.title ?? project.slug}</h1>
-          <p className="mt-6 max-w-3xl text-base leading-8 text-white/70 sm:text-lg">{translation?.summary}</p>
+          <Reveal>
+            <Link className="text-sm font-semibold text-turquoise transition hover:text-white" href={localizePath("/projects", locale)}>
+              {text.back}
+            </Link>
+            <div className="mt-10 flex flex-wrap items-center gap-2">
+              <p className="rounded-full bg-turquoise/15 px-3 py-1 text-xs font-semibold text-turquoise">{sectorTranslation?.title ?? text.caseStudy}</p>
+              {project.isFeatured ? <p className="rounded-full bg-orange/15 px-3 py-1 text-xs font-semibold text-orange">{text.featured}</p> : null}
+            </div>
+            <h1 className="mt-5 max-w-4xl text-4xl font-semibold leading-tight sm:text-6xl">{translation?.title ?? project.slug}</h1>
+            <p className="mt-6 max-w-3xl text-base leading-8 text-white/70 sm:text-lg">{translation?.summary}</p>
+          </Reveal>
           {project.featuredImage ? (
-            <div className="mt-10 overflow-hidden rounded-lg border border-white/10 bg-white/10">
+            <Reveal className="mt-10 overflow-hidden rounded-lg border border-white/10 bg-white/10" delay={0.12}>
               <img
                 alt={project.featuredImage.altAr || project.featuredImage.altEn || translation?.title || project.slug}
                 className="max-h-[28rem] w-full object-cover"
                 src={project.featuredImage.url}
               />
-            </div>
+            </Reveal>
           ) : null}
         </Container>
       </section>
 
       <section className="py-14 sm:py-18">
         <Container>
-          <div className="grid gap-4 lg:grid-cols-3">
+          <Stagger className="grid gap-4 lg:grid-cols-3">
             {blocks.map((item, index) => (
+              <StaggerItem key={item.title}>
               <article
                 className="flex min-h-72 flex-col rounded-lg border border-petrol/10 bg-white p-6 shadow-[0_18px_55px_rgba(15,61,68,0.06)] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-orange/35 hover:shadow-[0_24px_70px_rgba(15,61,68,0.12)]"
-                key={item.title}
               >
                 <p className="text-3xl font-semibold text-orange">{String(index + 1).padStart(2, "0")}</p>
                 <h2 className="mt-8 text-xl font-semibold text-petrol">{item.title}</h2>
                 <p className="mt-4 text-sm leading-7 text-petrol/65">{item.body}</p>
                 <span className="mt-auto block h-1 w-12 rounded-full bg-turquoise" />
               </article>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
 
           {translation?.body ? (
-            <article className="mt-6 overflow-hidden rounded-lg border border-petrol/10 bg-white shadow-[0_18px_55px_rgba(15,61,68,0.06)]">
+            <Reveal className="mt-6 overflow-hidden rounded-lg border border-petrol/10 bg-white shadow-[0_18px_55px_rgba(15,61,68,0.06)]">
               <div className="grid lg:grid-cols-[0.35fr_0.65fr]">
                 <div className="bg-petrol p-6 text-white sm:p-8">
                   <p className="text-sm font-semibold text-turquoise">{text.overview}</p>
@@ -112,10 +116,10 @@ export async function ProjectDetailPage({ locale, slug }: { locale: Locale; slug
                 </div>
                 <p className="p-6 text-base leading-8 text-petrol/70 sm:p-8">{translation.body}</p>
               </div>
-            </article>
+            </Reveal>
           ) : null}
 
-          <div className="mt-8 rounded-lg bg-petrol p-8 text-white sm:p-10">
+          <Reveal className="mt-8 rounded-lg bg-petrol p-8 text-white sm:p-10">
             <h2 className="max-w-2xl text-2xl font-semibold leading-tight">
               {locale === "ar" ? "هل تعمل على مبادرة تحتاج إلى تنسيق منظومي؟" : "Working on an initiative that needs systemic coordination?"}
             </h2>
@@ -125,7 +129,7 @@ export async function ProjectDetailPage({ locale, slug }: { locale: Locale; slug
             >
               <span className="text-white">{text.next}</span>
             </Link>
-          </div>
+          </Reveal>
         </Container>
       </section>
     </main>
